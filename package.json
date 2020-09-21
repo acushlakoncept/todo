@@ -1,0 +1,28 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "A simple Todo App to manage projects and associated task",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acushlakoncept/todo.git"
+  },
+  "keywords": [
+    "todo",
+    "todo",
+    "app",
+    "javascript",
+    "webpack",
+    "html",
+    "css"
+  ],
+  "author": "Uduak Essien and Olawale Joseph",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/acushlakoncept/todo/issues"
+  },
+  "homepage": "https://github.com/acushlakoncept/todo#readme"
+}
