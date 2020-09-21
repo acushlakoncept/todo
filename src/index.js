@@ -2,6 +2,7 @@ import 'bootstrap';
 import './css/app.scss';
 import sideBar from './components/sideBar';
 
+const content = document.querySelector('#content');
 
 const mainPage = () => (
   `<div class="row">
@@ -14,8 +15,16 @@ const mainPage = () => (
   </div>`
 );
 
+
+// content.addEventListener('click', (e) => {
+//   const taskBtn = e.target.getAttribute('data-name');
+//   if(taskBtn != null) {
+//     taskModal();
+//   }
+// });
+
 const displayPage = () => {
-  document.querySelector('#content').insertAdjacentHTML('beforeend', mainPage());
+  content.insertAdjacentHTML('beforeend', mainPage());
 };
 
 displayPage();
