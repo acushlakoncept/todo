@@ -1,8 +1,14 @@
 import 'bootstrap';
 import './css/app.scss';
 import sideBar from './components/sideBar';
+// import ProjectLists from './components/ProjectList';
+// import taskModal from './components/TaskModal';
 
 const content = document.querySelector('#content');
+
+// const projects = new ProjectLists();
+
+// taskModal(projects);
 
 const mainPage = () => (
   `<div class="row">
