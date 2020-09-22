@@ -19,7 +19,7 @@ const createTask = () => '<button class="btn btn-primary mt-4 mb-4 text-center" 
 const quickLinks = (projects) => {
   const quickLinks = document.createElement('div');
   quickLinks.classList.add('quick-links');
-  quickLinks.innerHTML = ` <h2 class="border-bottom pb-2 title mt-4">Quick Links</h2>
+  quickLinks.innerHTML = `<h2 class="border-bottom pb-2 title mt-4">Quick Links</h2>
   <nav class="nav flex-column">
     <a id='allTasks' class="nav-link" href="#">All Task</a>
     <a id='todayTasks' class="nav-link" href="#">Today</a>
@@ -56,15 +56,14 @@ const quickLinks = (projects) => {
 const lists = (projects) => {
   const lists = document.createElement('div');
   lists.classList.add('quick-links');
-  lists.innerHTML = `<h2 class="border-bottom pb-2 title mt-4">Lists <i class="fas fa-plus plus"></i></h2>
+  lists.innerHTML = `<h2 class="border-bottom pb-2 title mt-4">Lists <i class="fas fa-plus plus" data-name="project" data-toggle="modal" data-target="#projectModal">A</i></h2>
    <nav class="nav flex-column">
-   ${projects.map((project) => `<a class="nav-link" href="#"> ${project.name} <span class="badge badge-light">${project.taskCount}</span> </a>`)}
+   ${projects.map((project) => `<a class="nav-link" href="#"> ${project.name} <span class="badge badge-light">${project.taskCount
+  }</span> </a>`)}
    </nav>`;
-  const addProjectBtn = lists.querySelector('.plus');
+  // const addProjectBtn = lists.querySelector('.plus');
 
-  addProjectBtn.addEventListener('click', () => console.log('Ready To Add'));
-
-
+  // addProjectBtn.addEventListener('click', () => console.log('Ready To Add'));
   return lists;
 };
 
@@ -150,7 +149,54 @@ const taskModal = (projects) => {
   return mod;
 };
 
-const header = (projects) => {
+const projectModal = (projectList) => {
+  const mod = document.createElement('div');
+  mod.classList.add('modal', 'fade');
+  mod.id = 'projectModal';
+  mod.setAttribute('tabindex', '-1');
+  mod.setAttribute('role', 'dialog');
+  mod.setAttribute('aria-labelledby', 'dialog');
+  mod.setAttribute('role', 'exampleModalLabel');
+  mod.setAttribute('aria-hidden', 'true');
+  mod.innerHTML = `<div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add New Task</h5>
+        <button id='newProjectFormClose' type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id='project-form'>
+          <div class="form-group">
+            <input id='name' name='name' type="text" class="form-control" id="task-name" placeholder="Project name" required>
+          </div>
+          
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id='createProject' type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  `;
+  const btn = mod.querySelector('#createProject');
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const form = document.querySelector('#project-form');
+    const name = form.querySelector('#name').value;
+    console.log(name);
+    form.reset();
+    projectList.add(name);
+    console.log(projectList);
+    document.querySelector('#newProjectFormClose').click();
+  });
+  return mod;
+};
+
+const header = (projectList) => {
+  const { projects } = projectList;
   const ele = document.createElement('div');
   ele.innerHTML = `<div class="d-flex align-items-center justify-content-between flex-wrap border-bottom pb-2">
   <i class="fas fa-bars toggle-nav"></i>
@@ -159,8 +205,8 @@ const header = (projects) => {
   ${createTask()}`;
   ele.appendChild(quickLinks(projects));
   ele.appendChild(taskModal(projects));
-  console.log('Header',projects);
   ele.appendChild(lists(projects));
+  ele.appendChild(projectModal(projectList));
   return ele;
 };
 
