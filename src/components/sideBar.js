@@ -13,6 +13,9 @@ const hamburger = () => {
   bars.classList.add("fas", "fa-bars", "toggle-nav");
 };
 
+let listArr = ['Personal', 'Work', 'Grocery']
+
+
 const createTask = () =>
   '<button class="btn btn-primary mt-4 mb-4 text-center" data-name="task" data-toggle="modal" data-target="#taskModal">Create Task</button>';
 
