@@ -10,7 +10,7 @@ const mainPage = () => (
       ${sideBar()}
     </div>
     <div class="col-10 bg-light p-5 main">
-
+      <h1>I am Main</h1>
     </div>
   </div>`
 );
