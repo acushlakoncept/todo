@@ -14,7 +14,6 @@ const hamburger = () => {
 };
 
 
-
 const createTask = () => '<button class="btn btn-primary mt-4 mb-4 text-center" data-name="task" data-toggle="modal" data-target="#taskModal">Create Task</button>';
 
 const quickLinks = (projects) => {
@@ -34,7 +33,7 @@ const quickLinks = (projects) => {
   allTaskBtn.addEventListener('click', (e) => {
     e.preventDefault();
     projects.forEach((project) => {
-     console.log('All', project.allTasks());
+      console.log('All', project.allTasks());
     });
   });
 
@@ -48,21 +47,26 @@ const quickLinks = (projects) => {
   sevenDaysTasksBtn.addEventListener('click', (e) => {
     e.preventDefault();
     projects.forEach((project) => {
-      console.log("Week", project.weekTasks());
+      console.log('Week', project.weekTasks());
     });
   });
   return quickLinks;
 };
 
-const lists = () => `<div class="quick-links">
-      <h2 class="border-bottom pb-2 title mt-4">Lists</h2>
-      <nav class="nav flex-column">
-        <a class="nav-link" href="#">Personal <span class="badge badge-light">1</span> </a>
-        <a class="nav-link" href="#">Work <span class="badge badge-light">4</span> </a>
-        <a class="nav-link" href="#">Grocery <span class="badge badge-light">2</span> </a>
-      </nav>
-  </div>
-  `;
+const lists = (projects) => {
+  const lists = document.createElement('div');
+  lists.classList.add('quick-links');
+  lists.innerHTML = `<h2 class="border-bottom pb-2 title mt-4">Lists <i class="fas fa-plus plus"></i></h2>
+   <nav class="nav flex-column">
+   ${projects.map((project) => `<a class="nav-link" href="#"> ${project.name} <span class="badge badge-light">${project.taskCount}</span> </a>`)}
+   </nav>`;
+  const addProjectBtn = lists.querySelector('.plus');
+
+  addProjectBtn.addEventListener('click', () => console.log('Ready To Add'));
+
+
+  return lists;
+};
 
 const generateOptions = (projects) => projects.map((prj, index) => (
   `<option data-index=${index} value=${prj.name}> ${prj.name} </option>`
@@ -152,10 +156,11 @@ const header = (projects) => {
   <i class="fas fa-bars toggle-nav"></i>
   <h2 class="title">My TODO</h2>
   </div>
-  ${createTask()}
-    ${lists()}`;
+  ${createTask()}`;
   ele.appendChild(quickLinks(projects));
   ele.appendChild(taskModal(projects));
+  console.log('Header',projects);
+  ele.appendChild(lists(projects));
   return ele;
 };
 
