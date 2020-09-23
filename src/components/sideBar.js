@@ -63,9 +63,18 @@ const lists = (projects) => {
   return lists;
 };
 
-const generateOptions = (projects) => projects.map((prj, index) => (
-  `<option data-index=${index} value=${prj.name}> ${prj.name} </option>`
-));
+const generateOptions = (projects) => {
+  const select = document.querySelector('#list-select');
+  let output = '';
+  projects.forEach((prj, index) => {
+    output += `<option data-index=${index} value=${prj.name}> ${prj.name} </option>`;
+  });
+  if (!select) {
+    return output;
+  }
+  select.innerHTML = output;
+  return select;
+};
 
 const taskModal = (projects) => {
   const mod = document.createElement('div');
@@ -91,7 +100,7 @@ const taskModal = (projects) => {
             <input id='name' name='name' type="text" class="form-control" id="task-name" placeholder="Task name" required>
           </div>
           <div class="form-group">
-            <select id='project' name='project' class="form-control" id="list-select" required>
+            <select name='project' class="form-control" id="list-select" required>
               ${generateOptions(projects)}
             </select>
           </div>
@@ -137,12 +146,13 @@ const taskModal = (projects) => {
     const projectIndex = form.querySelector('#project').options[project.selectedIndex].getAttribute('data-index');
 
     const foundProject = projects[projectIndex];
-    console.log('Add Task',foundProject, foundProject.addTask)
-    foundProject.addTask({ name, date, description, priority, note });
-    console.log('Added Task',foundProject)
+    foundProject.addTask({
+      name, date, description, priority, note,
+    });
 
     form.reset();
     document.querySelector('#newTaskFormClose').click();
+    renderList(projects);
   });
   return mod;
 };
@@ -187,8 +197,8 @@ const projectModal = (projectList) => {
     form.reset();
     projectList.add({ name });
     document.querySelector('#newProjectFormClose').click();
-    const container = document.querySelector('.projects-nav');
-    renderList(container, projectList.projects);
+    renderList(projectList.projects);
+    generateOptions(projectList.projects);
   });
   return mod;
 };

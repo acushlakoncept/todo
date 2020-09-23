@@ -7,7 +7,8 @@ export const renderMain = (content) => {
 };
 
 
-export const renderList = (parent, projects) => {
+export const renderList = (projects) => {
+  const parent = document.querySelector('.projects-nav');
   parent.innerHTML = '';
   projects.map((project, index) => {
     const projectLink = document.createElement('a');
