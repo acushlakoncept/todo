@@ -21,23 +21,32 @@ const quickLinks = (projects) => {
 
   allTaskBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    projects.forEach((project) => {
-      renderMain(project);
+    const cards = projects.map((project) => {
+      const prj = project;
+      prj.tasks = project.allTasks();
+      return projectCard(prj);
     });
+    renderMain(cards);
   });
 
   todayTasksBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    projects.forEach((project) => {
-      renderMain(project);
+    const cards = projects.map((project) => {
+      const prj = project;
+      prj.tasks = project.todayTasks();
+      return projectCard(prj);
     });
+    renderMain(cards);
   });
 
   weeklyTasksBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    projects.forEach((project) => {
-      renderMain(project);
+    const cards = projects.map((project) => {
+      const prj = project;
+      prj.tasks = project.weekTasks();
+      return projectCard(prj);
     });
+    renderMain(cards);
   });
   return quickLinks;
 };
@@ -142,8 +151,8 @@ const taskModal = (projects) => {
     const priority = form.querySelector('#priority').value;
     const date = form.querySelector('#date').value;
     const note = form.querySelector('#note').value;
-    const project = form.querySelector('#project');
-    const projectIndex = form.querySelector('#project').options[project.selectedIndex].getAttribute('data-index');
+    const project = form.querySelector('#list-select');
+    const projectIndex = form.querySelector('#list-select').options[project.selectedIndex].getAttribute('data-index');
 
     const foundProject = projects[projectIndex];
     foundProject.addTask({

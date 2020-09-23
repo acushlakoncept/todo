@@ -1,9 +1,11 @@
 import projectCard from './components/Project';
 
-export const renderMain = (content) => {
+export const renderMain = (arr) => {
   const main = document.querySelector('.main');
   main.innerHTML = '';
-  main.appendChild(content);
+  arr.forEach(element => {
+    main.appendChild(element);
+  });
 };
 
 
