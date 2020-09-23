@@ -1,21 +1,6 @@
 import render from '../render';
 import projectCard from './Project';
 
-const sideBar = document.querySelector('.side-bar');
-
-const closeSidenav = () => {
-  const hamburger = document.querySelector('.toggle-nav');
-  hamburger.addEventListener('click', () => {
-    sideBar.classList.toggle('col-1');
-    sideBar.classList.toggle('col-2');
-  });
-};
-
-const hamburger = () => {
-  const bars = document.createElement('i');
-  bars.classList.add('fas', 'fa-bars', 'toggle-nav');
-};
-
 
 const createTask = () => '<button class="btn btn-primary mt-4 mb-4 text-center" data-name="task" data-toggle="modal" data-target="#taskModal">Create Task</button>';
 
@@ -61,7 +46,7 @@ const lists = (projects) => {
   lists.classList.add('quick-links');
   lists.innerHTML = `<h2 class="border-bottom pb-2 title mt-4">Lists <i class="fas fa-plus plus ml-4" data-name="project" data-toggle="modal" data-target="#projectModal">A</i></h2>
    <nav class="nav flex-column">
-   ${projects.map((project, index) => `<a data-index=${index} class="nav-link project" href="#"> ${project.name} <span class="badge badge-light">${project.taskCount}</span> </a>`)}
+   ${projects.map((project, index) => (`<a data-index=${index} class="nav-link project" href="#"> ${project.name} <span class="badge badge-light">${project.taskCount}</span> </a>`))}
    </nav>`;
   const allProjectLists = lists.querySelectorAll('.project');
   allProjectLists.forEach((projectList) => {

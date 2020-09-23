@@ -3,15 +3,15 @@ import Project from './Project';
 class ProjectList {
   constructor() {
     this.projects = localStorage.getItem('projects') ? JSON.parse(localStorage.getItem('projects')) : [];
-    this.projects.push(new Project('Default'))
-    console.log('Constructor', this.projects)
-    this.projectCount = 0;
+    if (this.projects.length < 1) {
+      this.projects.push(new Project('Default'));
+      this.projectCount = 0;
+    }
   }
 
   add(name) {
     this.projects.push(new Project(name));
     this.projectCount += 1;
-    console.log('Add', this.projects, this.projectCount)
     localStorage.setItem('projects', JSON.stringify(this.projects));
   }
 
@@ -23,7 +23,3 @@ class ProjectList {
 }
 
 export default ProjectList;
-
-// const qq = new ProjectList();
-// qq.add('Hello');
-// console.log(qq);

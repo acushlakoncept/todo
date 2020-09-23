@@ -19,8 +19,3 @@ class Task {
 }
 
 export default Task;
-// const wash = new Task('wash', Date.now(), 'Testing', 'high');
-
-// console.log(wash);
-// wash.edit('Edited task', Date.now(), 'Updated Testing', 'medium');
-// console.log(wash);

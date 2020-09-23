@@ -7,16 +7,7 @@ import ProjectLists from './models/ProjectList';
 
 const content = document.querySelector('#content');
 
-
-
-// taskModal(projects);
-// const as = () => {
-  //   const rt = document.createElement('p');
-  //   rt.textContent = 'Here we go';
-  //   return rt;
-  // };
-  
-  const mainPage = () => {
+const mainPage = () => {
   const projectList = new ProjectLists();
   const page = document.createElement('div');
   const side = document.createElement('div');
@@ -31,7 +22,6 @@ const content = document.querySelector('#content');
   page.appendChild(side);
   page.appendChild(main);
 
-  main.addEventListener('', () => console.log('Changed'));
   return page;
 };
 
@@ -39,4 +29,6 @@ const displayPage = () => {
   content.appendChild(mainPage());
 };
 
-displayPage();
+window.addEventListener('load', () => {
+  displayPage();
+});

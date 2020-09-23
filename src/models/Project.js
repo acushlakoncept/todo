@@ -48,12 +48,3 @@ class Project {
 }
 
 export default Project;
-
-// const first = new Project('Test Project');
-// first.addTask('wash', Date.now(), 'Testing', 'high');
-// first.addTask('buy', Date.now(), 'Delete', 'high');
-// // console.log(first);
-
-// first.deleteTask(1);
-
-// console.log(first);
