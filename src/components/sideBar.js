@@ -1,3 +1,5 @@
+import render from "../render";
+
 const sideBar = document.querySelector('.side-bar');
 
 const closeSidenav = () => {
@@ -23,12 +25,12 @@ const quickLinks = (projects) => {
   <nav class="nav flex-column">
     <a id='allTasks' class="nav-link" href="#">All Task</a>
     <a id='todayTasks' class="nav-link" href="#">Today</a>
-    <a id='sevenDaysTasks' class="nav-link" href="#">Next 7 Days</a>
+    <a id='weeklyTasks' class="nav-link" href="#">Next 7 Days</a>
   </nav>`;
 
   const allTaskBtn = quickLinks.querySelector('#allTasks');
   const todayTasksBtn = quickLinks.querySelector('#todayTasks');
-  const sevenDaysTasksBtn = quickLinks.querySelector('#sevenDaysTasks');
+  const weeklyTasksBtn = quickLinks.querySelector('#weeklyTasks');
 
   allTaskBtn.addEventListener('click', (e) => {
     e.preventDefault();
@@ -44,7 +46,7 @@ const quickLinks = (projects) => {
     });
   });
 
-  sevenDaysTasksBtn.addEventListener('click', (e) => {
+  weeklyTasksBtn.addEventListener('click', (e) => {
     e.preventDefault();
     projects.forEach((project) => {
       console.log('Week', project.weekTasks());
@@ -56,7 +58,7 @@ const quickLinks = (projects) => {
 const lists = (projects) => {
   const lists = document.createElement('div');
   lists.classList.add('quick-links');
-  lists.innerHTML = `<h2 class="border-bottom pb-2 title mt-4">Lists <i class="fas fa-plus plus" data-name="project" data-toggle="modal" data-target="#projectModal">A</i></h2>
+  lists.innerHTML = `<h2 class="border-bottom pb-2 title mt-4">Lists <i class="fas fa-plus plus ml-4" data-name="project" data-toggle="modal" data-target="#projectModal">A</i></h2>
    <nav class="nav flex-column">
    ${projects.map((project) => `<a class="nav-link" href="#"> ${project.name} <span class="badge badge-light">${project.taskCount
   }</span> </a>`)}
@@ -161,7 +163,7 @@ const projectModal = (projectList) => {
   mod.innerHTML = `<div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add New Task</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Add New Project</h5>
         <button id='newProjectFormClose' type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -186,10 +188,8 @@ const projectModal = (projectList) => {
     e.preventDefault();
     const form = document.querySelector('#project-form');
     const name = form.querySelector('#name').value;
-    console.log(name);
     form.reset();
     projectList.add(name);
-    console.log(projectList);
     document.querySelector('#newProjectFormClose').click();
   });
   return mod;
