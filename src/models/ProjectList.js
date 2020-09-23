@@ -1,24 +1,27 @@
+/* eslint-disable import/no-cycle */
+import { setStorage } from '../data';
 import Project from './Project';
 
 class ProjectList {
-  constructor() {
-    this.projects = localStorage.getItem('projects') ? JSON.parse(localStorage.getItem('projects')) : [];
+  constructor(projects) {
+    this.projects = projects || [];
     if (this.projects.length < 1) {
-      this.projects.push(new Project('Default'));
-      this.projectCount = 0;
+      this.projects.push(new Project({ name: 'Default' }));
     }
+    this.projectCount = 0;
   }
 
-  add(name) {
-    this.projects.push(new Project(name));
+  add({ name }) {
+    const newProject = new Project({ name });
+    this.projects.push(newProject);
     this.projectCount += 1;
-    localStorage.setItem('projects', JSON.stringify(this.projects));
+    setStorage();
   }
 
   deleteProject(index) {
     this.splice(index, 1);
     this.projectCount -= 1;
-    localStorage.setItem('projects', JSON.stringify(this.projects));
+    setStorage();
   }
 }
 

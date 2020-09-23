@@ -1,4 +1,5 @@
-import render from '../render';
+import { getProjects } from '../data';
+import { renderList, renderMain } from '../render';
 import projectCard from './Project';
 
 
@@ -21,21 +22,21 @@ const quickLinks = (projects) => {
   allTaskBtn.addEventListener('click', (e) => {
     e.preventDefault();
     projects.forEach((project) => {
-      console.log('All', project.allTasks());
+      renderMain(project);
     });
   });
 
   todayTasksBtn.addEventListener('click', (e) => {
     e.preventDefault();
     projects.forEach((project) => {
-      console.log('Today', project.todayTasks());
+      renderMain(project);
     });
   });
 
   weeklyTasksBtn.addEventListener('click', (e) => {
     e.preventDefault();
     projects.forEach((project) => {
-      console.log('Week', project.weekTasks());
+      renderMain(project);
     });
   });
   return quickLinks;
@@ -43,10 +44,12 @@ const quickLinks = (projects) => {
 
 const lists = (projects) => {
   const lists = document.createElement('div');
-  lists.classList.add('quick-links');
+  lists.classList.add('quick-links', 'project-links');
   lists.innerHTML = `<h2 class="border-bottom pb-2 title mt-4">Lists <i class="fas fa-plus plus ml-4" data-name="project" data-toggle="modal" data-target="#projectModal">A</i></h2>
-   <nav class="nav flex-column">
-   ${projects.map((project, index) => (`<a data-index=${index} class="nav-link project" href="#"> ${project.name} <span class="badge badge-light">${project.taskCount}</span> </a>`))}
+   <nav class="nav flex-column projects-nav">
+   ${projects.map((project, index) => (`<a data-index=${index} class="nav-link project" href="#">${project.name}
+   <span class="badge badge-light">${project.taskCount}</span>
+   </a>`)).join('')}
    </nav>`;
   const allProjectLists = lists.querySelectorAll('.project');
   allProjectLists.forEach((projectList) => {
@@ -54,11 +57,9 @@ const lists = (projects) => {
       e.preventDefault();
       const index = projectList.getAttribute('data-index');
       const view = projectCard(projects[index]);
-      render(view);
+      renderMain(view);
     });
   });
-
-  // addProjectBtn.addEventListener('click', () => console.log('Ready To Add'));
   return lists;
 };
 
@@ -136,8 +137,10 @@ const taskModal = (projects) => {
     const projectIndex = form.querySelector('#project').options[project.selectedIndex].getAttribute('data-index');
 
     const foundProject = projects[projectIndex];
+    console.log('Add Task',foundProject, foundProject.addTask)
+    foundProject.addTask({ name, date, description, priority, note });
+    console.log('Added Task',foundProject)
 
-    foundProject.addTask(name, date, description, priority, note);
     form.reset();
     document.querySelector('#newTaskFormClose').click();
   });
@@ -182,13 +185,16 @@ const projectModal = (projectList) => {
     const form = document.querySelector('#project-form');
     const name = form.querySelector('#name').value;
     form.reset();
-    projectList.add(name);
+    projectList.add({ name });
     document.querySelector('#newProjectFormClose').click();
+    const container = document.querySelector('.projects-nav');
+    renderList(container, projectList.projects);
   });
   return mod;
 };
 
-const header = (projectList) => {
+const header = () => {
+  const projectList = getProjects();
   const { projects } = projectList;
   const ele = document.createElement('div');
   ele.innerHTML = `<div class="d-flex align-items-center justify-content-between flex-wrap border-bottom pb-2">
@@ -200,6 +206,7 @@ const header = (projectList) => {
   ele.appendChild(taskModal(projects));
   ele.appendChild(lists(projects));
   ele.appendChild(projectModal(projectList));
+
   return ele;
 };
 

@@ -1,30 +1,44 @@
-import Task from '../components/Task';
+/* eslint-disable import/no-cycle */
+import { setStorage } from '../data';
+import Task from './Task';
 
 class Project {
-  constructor(name) {
+  constructor({ name, tasks, count }) {
     this.name = name;
-    this.tasks = [];
-    this.taskCount = 0;
+    this.tasks = tasks || [];
+    this.taskCount = count || 0;
   }
 
   edit(newName) {
     this.name = newName;
+    setStorage();
   }
 
-  addTask(...params) {
-    const newTask = new Task(...params);
+  addTask({
+    name, date, description, priority, note,
+  }) {
+    const newTask = new Task({
+      name, date, description, priority, note,
+    });
     this.tasks.push(newTask);
     this.taskCount += 1;
+    setStorage();
   }
 
-  editTask(index, ...params) {
+  editTask(index, {
+    name, date, description, priority, note,
+  }) {
     const taskToEdit = this.tasks[index];
-    taskToEdit.edit(...params);
+    taskToEdit.edit({
+      name, date, description, priority, note,
+    });
+    setStorage();
   }
 
   deleteTask(index) {
     this.tasks.splice(index, 1);
     this.taskCount -= 1;
+    setStorage();
   }
 
   todayTasks() {
