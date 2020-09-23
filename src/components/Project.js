@@ -1,59 +1,15 @@
-import Task from './Task';
-
-class Project {
-  constructor(name) {
-    this.name = name;
-    this.tasks = [];
-    this.taskCount = 0;
-  }
-
-  edit(newName) {
-    this.name = newName;
-  }
-
-  addTask(...params) {
-    const newTask = new Task(...params);
-    this.tasks.push(newTask);
-    this.taskCount += 1;
-  }
-
-  editTask(index, ...params) {
-    const taskToEdit = this.tasks[index];
-    taskToEdit.edit(...params);
-  }
-
-  deleteTask(index) {
-    this.tasks.splice(index, 1);
-    this.taskCount -= 1;
-  }
-
-  todayTasks() {
-    return this.tasks.filter((task) => {
-      const currentDate = new Date().toISOString().slice(0, 10);
-      return currentDate === task.date;
-    });
-  }
-
-  weekTasks() {
-    return this.tasks.filter((task) => {
-      const taskDate = task.date;
-      const currentDate = new Date();
-      return (Date.parse(taskDate) - Date.parse(currentDate)) < 604800000;
-    });
-  }
-
-  allTasks() {
-    return this.tasks;
-  }
-}
-
-export default Project;
-
-// const first = new Project('Test Project');
-// first.addTask('wash', Date.now(), 'Testing', 'high');
-// first.addTask('buy', Date.now(), 'Delete', 'high');
-// // console.log(first);
-
-// first.deleteTask(1);
-
-// console.log(first);
+export default (project) => {
+  const card = document.createElement('div');
+  card.classList.add('card', 'm-2');
+  card.innerHTML = `<div class="card-body">
+        <div class='d-flex'>
+          <h5 class="card-title">${project.name}</h5>
+            <h6 class="card-subtitle mb-2 text-muted pb-2 border-bottom"></h6>
+            <i class="fas fa-plus plus ml-4" data-name="task" data-toggle="modal" data-target="#taskModal">NT</i>
+          </div>
+          <ul class='list-group'>
+          ${project.tasks.map((task) => `<li class='list-group-item'>${task.name}</li>`)}
+          </ul>
+        </div>`;
+  return card;
+};

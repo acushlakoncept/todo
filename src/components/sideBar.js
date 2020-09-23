@@ -1,4 +1,5 @@
-import render from "../render";
+import render from '../render';
+import projectCard from './Project';
 
 const sideBar = document.querySelector('.side-bar');
 
@@ -60,10 +61,17 @@ const lists = (projects) => {
   lists.classList.add('quick-links');
   lists.innerHTML = `<h2 class="border-bottom pb-2 title mt-4">Lists <i class="fas fa-plus plus ml-4" data-name="project" data-toggle="modal" data-target="#projectModal">A</i></h2>
    <nav class="nav flex-column">
-   ${projects.map((project) => `<a class="nav-link" href="#"> ${project.name} <span class="badge badge-light">${project.taskCount
-  }</span> </a>`)}
+   ${projects.map((project, index) => `<a data-index=${index} class="nav-link project" href="#"> ${project.name} <span class="badge badge-light">${project.taskCount}</span> </a>`)}
    </nav>`;
-  // const addProjectBtn = lists.querySelector('.plus');
+  const allProjectLists = lists.querySelectorAll('.project');
+  allProjectLists.forEach((projectList) => {
+    projectList.addEventListener('click', (e) => {
+      e.preventDefault();
+      const index = projectList.getAttribute('data-index');
+      const view = projectCard(projects[index]);
+      render(view);
+    });
+  });
 
   // addProjectBtn.addEventListener('click', () => console.log('Ready To Add'));
   return lists;
