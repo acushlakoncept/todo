@@ -8,7 +8,7 @@ export default (project) => {
             <i class="fas fa-plus plus ml-4" data-name="task" data-toggle="modal" data-target="#taskModal">NT</i>
           </div>
           <ul class='list-group'>
-          ${project.tasks.map((task) => `<li class='list-group-item'>${task.name}</li>`)}
+          ${project.tasks.map((task) => `<li class='list-group-item'>${task.name}</li>`).join('')}
           </ul>
         </div>`;
   return card;

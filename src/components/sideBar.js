@@ -1,5 +1,6 @@
 import { getProjects } from '../data';
-import { renderList, renderMain } from '../render';
+import Project from '../models/Project';
+import { renderList, renderMain } from '../utils/render';
 import projectCard from './Project';
 
 
@@ -12,7 +13,7 @@ const quickLinks = (projects) => {
   <nav class="nav flex-column">
     <a id='allTasks' class="nav-link" href="#">All Task</a>
     <a id='todayTasks' class="nav-link" href="#">Today</a>
-    <a id='weeklyTasks' class="nav-link" href="#">Next 7 Days</a>
+    <a id='weeklyTasks' class="nav-link" href="#">This Week</a>
   </nav>`;
 
   const allTaskBtn = quickLinks.querySelector('#allTasks');
@@ -21,31 +22,26 @@ const quickLinks = (projects) => {
 
   allTaskBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    const cards = projects.map((project) => {
-      const prj = project;
-      prj.tasks = project.allTasks();
-      return projectCard(prj);
-    });
+    const cards = projects.filter((project) => project.allTasks().length)
+      .map((project) => projectCard(project));
     renderMain(cards);
   });
 
   todayTasksBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    const cards = projects.map((project) => {
-      const prj = project;
-      prj.tasks = project.todayTasks();
-      return projectCard(prj);
-    });
+    const cards = projects.filter((project) => project.todayTasks().length)
+      .map((project) => projectCard(project));
     renderMain(cards);
   });
 
   weeklyTasksBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    const cards = projects.map((project) => {
-      const prj = project;
-      prj.tasks = project.weekTasks();
-      return projectCard(prj);
-    });
+    const cards = projects.filter((project) => project.weekTasks().length)
+      .map((project) => {
+        const bn = new Project(project);
+        bn.tasks = bn.weekTasks();
+        return projectCard(bn);
+      });
     renderMain(cards);
   });
   return quickLinks;
@@ -66,7 +62,7 @@ const lists = (projects) => {
       e.preventDefault();
       const index = projectList.getAttribute('data-index');
       const view = projectCard(projects[index]);
-      renderMain(view);
+      renderMain([view]);
     });
   });
   return lists;

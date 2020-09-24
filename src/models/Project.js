@@ -1,5 +1,6 @@
 /* eslint-disable import/no-cycle */
 import { setStorage } from '../data';
+import getWeekNumber from '../utils/common';
 import Task from './Task';
 
 class Project {
@@ -42,18 +43,14 @@ class Project {
   }
 
   todayTasks() {
-    return this.tasks.filter((task) => {
+    return this.tasks.filter(({ date }) => {
       const currentDate = new Date().toISOString().slice(0, 10);
-      return currentDate === task.date;
+      return currentDate === date;
     });
   }
 
   weekTasks() {
-    return this.tasks.filter((task) => {
-      const taskDate = task.date;
-      const currentDate = new Date();
-      return (Date.parse(taskDate) - Date.parse(currentDate)) < 604800000;
-    });
+    return this.tasks.filter(({ date }) => getWeekNumber(date) === getWeekNumber(new Date()));
   }
 
   allTasks() {

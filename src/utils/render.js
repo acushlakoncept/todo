@@ -1,4 +1,4 @@
-import projectCard from './components/Project';
+import projectCard from '../components/Project';
 
 export const renderMain = (arr) => {
   const main = document.querySelector('.main');
