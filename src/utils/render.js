@@ -19,13 +19,13 @@ export const renderList = (projects) => {
     projectLink.innerHTML = project.name;
     const linkBadge = document.createElement('span');
     linkBadge.classList.add('badge', 'badge-light');
-    linkBadge.text = project.taskCount;
+    linkBadge.textContent = project.tasks.length;
     projectLink.appendChild(linkBadge);
     projectLink.addEventListener('click', (e) => {
       e.preventDefault();
       const index = projectLink.getAttribute('data-index');
       const view = projectCard(projects[index]);
-      renderMain(view);
+      renderMain([view]);
     });
     parent.appendChild(projectLink);
     return parent;

@@ -53,7 +53,7 @@ const lists = (projects) => {
   lists.innerHTML = `<h2 class="border-bottom pb-2 title mt-4">Lists <i class="fas fa-plus plus ml-4" data-name="project" data-toggle="modal" data-target="#projectModal">A</i></h2>
    <nav class="nav flex-column projects-nav">
    ${projects.map((project, index) => (`<a data-index=${index} class="nav-link project" href="#">${project.name}
-   <span class="badge badge-light">${project.taskCount}</span>
+   <span class="badge badge-light badge-${project.name}">${project.tasks.length}</span>
    </a>`)).join('')}
    </nav>`;
   const allProjectLists = lists.querySelectorAll('.project');
@@ -154,10 +154,10 @@ const taskModal = (projects) => {
     foundProject.addTask({
       name, date, description, priority, note,
     });
-
     form.reset();
     document.querySelector('#newTaskFormClose').click();
     renderList(projects);
+    renderMain(foundProject);
   });
   return mod;
 };

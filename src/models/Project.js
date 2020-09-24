@@ -4,10 +4,9 @@ import getWeekNumber from '../utils/common';
 import Task from './Task';
 
 class Project {
-  constructor({ name, tasks, count }) {
+  constructor({ name, tasks }) {
     this.name = name;
     this.tasks = tasks || [];
-    this.taskCount = count || 0;
   }
 
   edit(newName) {
@@ -22,7 +21,6 @@ class Project {
       name, date, description, priority, note,
     });
     this.tasks.push(newTask);
-    this.taskCount += 1;
     setStorage();
   }
 
@@ -38,7 +36,6 @@ class Project {
 
   deleteTask(index) {
     this.tasks.splice(index, 1);
-    this.taskCount -= 1;
     setStorage();
   }
 
