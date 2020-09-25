@@ -182,6 +182,12 @@ projectCards.querySelector('.project-task').addEventListener('click', e => {
   }
 })
 
+projectCards.querySelector(".clear-task").addEventListener('click', e => {
+  const selectedProject = projects.find(project => project.id === selectedProjectId)
+  selectedProject.tasks = selectedProject.tasks.filter(task => !task.complete)
+  saveAndRender()
+})
+
 const renderProjects = () => {
   projects.forEach((project) => {
     const projectElem = document.createElement("a");

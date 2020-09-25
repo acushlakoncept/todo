@@ -155,6 +155,10 @@ const removeProject = document.createElement('button')
 removeProject.classList.add('btn', 'btn-danger', 'btn-medium', 'delete-project', 'mt-2')
 removeProject.innerText = 'Delete this project'
 projectCards.appendChild(removeProject)
+const clearCompletedTask = document.createElement('button')
+clearCompletedTask.classList.add('btn', 'btn-light', 'btn-medium', 'clear-task', 'mt-2')
+clearCompletedTask.innerText = 'Clear complete task'
+projectCards.appendChild(clearCompletedTask)
 
 
 const mainPage = () => {
