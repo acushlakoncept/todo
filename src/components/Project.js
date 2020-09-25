@@ -1,6 +1,7 @@
 /* eslint-disable import/no-cycle */
 import { getProjects, setStorage } from '../data';
 import { renderList } from '../utils/render';
+import taskModal from './TaskModal'
 
 export default (project, projectIndex = null) => {
   const card = document.createElement('div');
@@ -25,7 +26,7 @@ export default (project, projectIndex = null) => {
         </div>`;
 
   const projectCompletion = card.querySelectorAll('input');
-  // const editPen = card.querySelectorAll('.pen');
+  const editPen = card.querySelectorAll('.pen');
   const deleteBin = card.querySelectorAll('.trash');
 
   projectCompletion.forEach((item) => {
@@ -38,11 +39,11 @@ export default (project, projectIndex = null) => {
     });
   });
 
-  // editPen.forEach((pen) => {
-  //   pen.addEventListener('click', (e) => {
-  //     taskModal(getProjects(), )
-  //   });
-  // });
+  editPen.forEach((pen) => {
+    pen.addEventListener('click', (e) => {
+      const taskIndex = e.target.getAttribute("data-taskindex")
+    });
+  });
 
   deleteBin.forEach((bin) => {
     bin.addEventListener('click', (e) => {
