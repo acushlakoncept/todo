@@ -48,6 +48,13 @@ window.addEventListener("load", () => {
   displayPage();
 });
 
+projectList.addEventListener("click", (e) => {
+  if (e.target.tagName.toLowerCase() === "a") {
+    selectedProjectId = e.target.dataset.projectId;
+    saveAndRender();
+  }
+});
+
 projectModal.addEventListener('submit', e => {
   e.preventDefault();
   const projectName = e.target.children[0].children[0].value
@@ -57,7 +64,7 @@ projectModal.addEventListener('submit', e => {
   e.target.children[0].children[0].value = null;
   projects.push(project);
   saveAndRender();
-  projectModal.
+  //TODO: dismiss modal after saving
 })
 
 const createProject = (name) => {
@@ -75,27 +82,32 @@ const save = () => {
 };
 
 const render = () => {
-  clearElement(projectList.getElementsByTagName('nav'));
+  clearElement(projectList.querySelector('.projects-nav'));
   renderProjects()
 
-  // const selectedProject = projects.find(project => project.id === selectedProjectId)
+  const selectedProject = projects.find(project => project.id === selectedProjectId)
 
-  // if (selectedProjectId == null) {
-  //     projectCards.style.display = 'none'
-  // } else {
-  //       projectCards.style.display = ''
-  //       projectCards.document.querySelector('card-header').innerText = selectedProject.name
-  //       renderTaskCount(selectedProject)
-  //       clearElement(projectCards.document.querySelector('project-task'))
-  //       renderTasks(selectedProject)
-  // }
+  if (selectedProjectId == null) {
+      projectCards.style.display = 'none'
+  } else {
+        projectCards.style.display = ''
+        projectCards.querySelector('.card-header').innerText = selectedProject.name
+        renderTaskCount(selectedProject)
+        clearElement(projectCards.document.querySelector('project-task'))
+        // renderTasks(selectedProject)
+  }
 };
+
+const renderTaskCount = (selectedProject) => {
+  const incompleteTaskCount = selectedProject.tasks.filter(task => !task.complete).length
+  const taskString = incompleteTaskCount === 1 ? 'task' : 'tasks'
+  projectCards.querySelector('.project-task-count').innerText = `${incompleteTaskCount} ${taskString} remaining`
+}
+
 
 
 
 const renderProjects = () => {
-  const projectNav = document.createElement("nav");
-  projectNav.classList.add('nav', 'flex-column', 'projects-nav')
   projects.forEach((project) => {
     const projectElem = document.createElement('a')
     projectElem.dataset.projectId = project.id;
@@ -104,9 +116,8 @@ const renderProjects = () => {
     if (project.id == selectedProjectId) {
       projectElem.classList.add("active-project");
     }
-    projectNav.appendChild(projectElem);  
+    projectList.querySelector('.projects-nav').appendChild(projectElem);  
   });
-  projectList.appendChild(projectNav)
 };
 
 const clearElement = (element) => {

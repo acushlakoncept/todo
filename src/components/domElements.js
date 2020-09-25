@@ -42,6 +42,9 @@ const projectListTitle = document.createElement('h2')
 projectListTitle.classList.add('border-bottom', 'pb-2', 'title', 'mt-4')
 projectListTitle.innerHTML = `Lists <i class="fas fa-plus plus ml-4" data-name="project" data-toggle="modal" data-target="#projectModal">A</i>`;
 projectList.appendChild(projectListTitle)
+const projectNav = document.createElement("nav");
+projectNav.classList.add('nav', 'flex-column', 'projects-nav')
+projectList.appendChild(projectNav)
 
 
 const modalElement = document.createElement("div");
@@ -139,6 +142,9 @@ const projectCardHead = document.createElement("div");
 projectCardHead.classList.add("card-header");
 projectCardHead.innerText = "Default";
 projectCards.appendChild(projectCardHead);
+const projectTaskCount = document.createElement('p')
+projectTaskCount.classList.add('project-task-count')
+projectCards.appendChild(projectTaskCount)
 const projectCardList = document.createElement("ul");
 projectCardList.classList.add("list-group", "list-group-flush", "project-task");
 projectCardList.innerHTML = `<li class="list-group-item">Cras justo odio</li>
