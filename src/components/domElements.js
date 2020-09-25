@@ -144,11 +144,8 @@ projectCards.appendChild(projectCardHead);
 const projectTaskCount = document.createElement('p')
 projectTaskCount.classList.add('project-task-count')
 projectCards.appendChild(projectTaskCount)
-const projectCardList = document.createElement("ul");
+const projectCardList = document.createElement("div");
 projectCardList.classList.add("list-group", "list-group-flush", "project-task");
-projectCardList.innerHTML = `<li class="list-group-item">Cras justo odio</li>
-  <li class="list-group-item">Dapibus ac facilisis in</li>
-  <li class="list-group-item">Vestibulum at eros</li>`;
 projectCards.appendChild(projectCardList);
 const addTaskBtn = document.createElement('button')
 addTaskBtn.classList.add('btn', 'btn-success', 'btn-medium', 'add-task', 'mt-4')
