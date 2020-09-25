@@ -134,7 +134,7 @@ projectModal.innerHTML = `<div class="modal-dialog" role="document">
       </div>
     </div>
     `;
-
+    
 const projectCards = document.createElement("div");
 projectCards.classList.add("card", "project-card");
 const projectCardHead = document.createElement("div");
@@ -150,6 +150,15 @@ projectCardList.innerHTML = `<li class="list-group-item">Cras justo odio</li>
   <li class="list-group-item">Dapibus ac facilisis in</li>
   <li class="list-group-item">Vestibulum at eros</li>`;
 projectCards.appendChild(projectCardList);
+const addTaskBtn = document.createElement('button')
+addTaskBtn.classList.add('btn', 'btn-success', 'btn-medium', 'add-task', 'mt-4')
+addTaskBtn.setAttribute('aria-label', 'create new task')
+addTaskBtn.innerText = '+'
+addTaskBtn.dataset.toggle = "modal";
+addTaskBtn.dataset.target = "#taskModal";
+projectCards.appendChild(addTaskBtn)
+
+//TODO: tidy up unused code up here
 
 export {
   createTaskBtn,

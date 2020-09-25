@@ -48,8 +48,10 @@ window.addEventListener("load", () => {
   displayPage();
 });
 
-createTaskBtn.addEventListener('click', e => {
-    const modEl = modalElement.querySelector('.project-list')
+
+
+const setProjectsForModal = () => {
+  const modEl = modalElement.querySelector('.project-list')
     projects.forEach(project => {
       const projectOption = document.createElement('option')
       projectOption.dataset.projectId = project.id
@@ -58,7 +60,10 @@ createTaskBtn.addEventListener('click', e => {
       modEl.appendChild(projectOption)
       
     })
-})
+}
+
+createTaskBtn.addEventListener('click', setProjectsForModal)
+projectCards.querySelector('.add-task').addEventListener('click', setProjectsForModal)
 
 projectList.addEventListener("click", (e) => {
   if (e.target.tagName.toLowerCase() === "a") {
@@ -105,7 +110,7 @@ const render = () => {
         projectCards.style.display = ''
         projectCards.querySelector('.card-header').innerText = selectedProject.name
         renderTaskCount(selectedProject)
-        clearElement(projectCards.document.querySelector('project-task'))
+        clearElement(projectCards.querySelector('.project-task'))
         renderTasks(selectedProject)
   }
 };
@@ -160,4 +165,4 @@ const clearElement = (element) => {
   }
 };
 
-renderProjects()
+render()
