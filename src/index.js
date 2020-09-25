@@ -65,6 +65,12 @@ const setProjectsForModal = () => {
 createTaskBtn.addEventListener('click', setProjectsForModal)
 projectCards.querySelector('.add-task').addEventListener('click', setProjectsForModal)
 
+projectCards.querySelector('.delete-project').addEventListener("click", (e) => {
+  projects = projects.filter((project) => project.id !== selectedProjectId);
+  selectedProjectId = null;
+  saveAndRender();
+});
+
 projectList.addEventListener("click", (e) => {
   if (e.target.tagName.toLowerCase() === "a") {
     selectedProjectId = e.target.dataset.projectId;

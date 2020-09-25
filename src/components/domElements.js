@@ -153,10 +153,14 @@ projectCards.appendChild(projectCardList);
 const addTaskBtn = document.createElement('button')
 addTaskBtn.classList.add('btn', 'btn-success', 'btn-medium', 'add-task', 'mt-4')
 addTaskBtn.setAttribute('aria-label', 'create new task')
-addTaskBtn.innerText = '+'
+addTaskBtn.innerText = 'Add task'
 addTaskBtn.dataset.toggle = "modal";
 addTaskBtn.dataset.target = "#taskModal";
 projectCards.appendChild(addTaskBtn)
+const removeProject = document.createElement('button')
+removeProject.classList.add('btn', 'btn-danger', 'btn-medium', 'delete-project', 'mt-2')
+removeProject.innerText = 'Delete this project'
+projectCards.appendChild(removeProject)
 
 //TODO: tidy up unused code up here
 
