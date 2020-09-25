@@ -1,6 +1,8 @@
-import { setStorage } from '../data';
+/* eslint-disable import/no-cycle */
+import { getProjects, setStorage } from '../data';
+import { renderList } from '../utils/render';
 
-export default (project) => {
+export default (project, projectIndex = null) => {
   const card = document.createElement('div');
   card.classList.add('card', 'm-2');
   card.innerHTML = `<div class="card-body">
@@ -12,19 +14,19 @@ export default (project) => {
           <ul class='list-group'>
           ${project.tasks.map((task, index) => `
           <li class='list-group-item d-flex align-items-center ${task.completed && 'completed'}'>
-          <input class='${task.completed && 'completed'}' type="checkbox" data-taskIndex="${index}">
+          <input class='${task.completed && 'completed'} complete-checkbox' type="checkbox" data-projectIndex="${projectIndex}" data-taskIndex="${index}">
           <p class="ml-4 mb-0">${task.name}</p>
           <div class="ml-5">
-            <i class="fas fa-pen mx-4 pen"></i>
-            <i class="far fa-trash-alt trash"></i>
+            <i class="fas fa-pen mx-4 pen" data-projectIndex="${projectIndex}" data-taskIndex="${index}"></i>
+            <i class="far fa-trash-alt trash" data-projectIndex="${projectIndex}" data-taskIndex="${index}"></i>
           </div>
           </li>`).join('')}
           </ul>
         </div>`;
 
   const projectCompletion = card.querySelectorAll('input');
-  const editPen = card.querySelector('.pen');
-  const deleteBin = card.querySelector('.trash');
+  // const editPen = card.querySelectorAll('.pen');
+  const deleteBin = card.querySelectorAll('.trash');
 
   projectCompletion.forEach((item) => {
     item.addEventListener('click', (e) => {
@@ -36,13 +38,20 @@ export default (project) => {
     });
   });
 
-  editPen.addEventListener('click', (e) => {
+  // editPen.forEach((pen) => {
+  //   pen.addEventListener('click', (e) => {
+  //     taskModal(getProjects(), )
+  //   });
+  // });
 
+  deleteBin.forEach((bin) => {
+    bin.addEventListener('click', (e) => {
+      const taskIndex = e.target.getAttribute('data-taskIndex');
+      e.target.parentElement.parentElement.classList.replace('d-flex', 'd-none');
+      project.tasks.splice(taskIndex, 1);
+      setStorage();
+      renderList(getProjects().projects);
+    });
   });
-  deleteBin.addEventListener('click', (e) => {
-
-  });
-
-
   return card;
 };
