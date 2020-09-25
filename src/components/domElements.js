@@ -37,13 +37,12 @@ quickLinks.innerHTML = `<h2 class="border-bottom pb-2 title mt-4">Quick Links</h
 </nav>`;
 
 const projectList = document.createElement("div");
-projectList.classList.add("quick-links", "project-links");
-projectList.innerHTML = `<h2 class="border-bottom pb-2 title mt-4">Lists <i class="fas fa-plus plus ml-4" data-name="project" data-toggle="modal" data-target="#projectModal">A</i></h2>
- <nav class="nav flex-column projects-nav">
- <a data-index="data" class="nav-link project" href="#">Default
- <span class="badge badge-light badge-default" data-taskcount="taskcount">0</span>
- </a>
- </nav>`;
+projectList.classList.add("project-links");
+const projectListTitle = document.createElement('h2')
+projectListTitle.classList.add('border-bottom', 'pb-2', 'title', 'mt-4')
+projectListTitle.innerHTML = `Lists <i class="fas fa-plus plus ml-4" data-name="project" data-toggle="modal" data-target="#projectModal">A</i>`;
+projectList.appendChild(projectListTitle)
+
 
 const modalElement = document.createElement("div");
 modalElement.classList.add("modal", "fade");
@@ -121,12 +120,12 @@ projectModal.innerHTML = `<div class="modal-dialog" role="document">
         <div class="modal-body">
           <form id='project-form'>
             <div class="form-group">
-              <input id='name' name='name' type="text" class="form-control" id="task-name" placeholder="Project name" required>
+              <input data-project-name-input id='name' name='name' type="text" class="form-control" placeholder="Project name" required>
             </div>
             
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button id='createProject' type="submit" class="btn btn-primary">Submit</button>
+              <button id='createProject' type="submit" data-project-form-submit class="btn btn-primary">Submit</button>
             </div>
           </form>
         </div>
@@ -141,7 +140,7 @@ projectCardHead.classList.add("card-header");
 projectCardHead.innerText = "Default";
 projectCards.appendChild(projectCardHead);
 const projectCardList = document.createElement("ul");
-projectCardList.classList.add("list-group", "list-group-flush");
+projectCardList.classList.add("list-group", "list-group-flush", "project-task");
 projectCardList.innerHTML = `<li class="list-group-item">Cras justo odio</li>
   <li class="list-group-item">Dapibus ac facilisis in</li>
   <li class="list-group-item">Vestibulum at eros</li>`;
