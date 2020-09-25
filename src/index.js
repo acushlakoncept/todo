@@ -12,6 +12,9 @@ import {
 } from "./components/domElements";
 
 const content = document.querySelector("#content");
+const deleteProjectBtn = projectCards.querySelector(".delete-project");
+const completeTaskInput = projectCards.querySelector('.project-task');
+const clearCompletedTaskBtn = projectCards.querySelector(".clear-task");
 
 const LOCAL_STORAGE_PROJECT_KEY = "todo-projects";
 const LOCAL_STORAGE_PROJECT_ID_KEY = "todo.selectedProjectId";
@@ -30,7 +33,7 @@ window.addEventListener("load", () => {
   displayPage();
 });
 
-projectCards.querySelector(".delete-project").addEventListener("click", (e) => {
+deleteProjectBtn.addEventListener("click", (e) => {
   projects = projects.filter((project) => project.id !== selectedProjectId);
   selectedProjectId = null;
   saveAndRender();
@@ -171,8 +174,8 @@ const renderTasks = (selectedProject) => {
   });
 };
 
-// HANDLES TASK COMPLETION
-projectCards.querySelector('.project-task').addEventListener('click', e => {
+
+completeTaskInput.addEventListener('click', e => {
   if (e.target.tagName.toLowerCase() === 'input') {
       const selectedProject = projects.find(project => project.id === selectedProjectId)
       const selectedTask = selectedProject.tasks.find(task => task.id === e.target.id)
@@ -182,7 +185,7 @@ projectCards.querySelector('.project-task').addEventListener('click', e => {
   }
 })
 
-projectCards.querySelector(".clear-task").addEventListener('click', e => {
+clearCompletedTaskBtn.addEventListener('click', e => {
   const selectedProject = projects.find(project => project.id === selectedProjectId)
   selectedProject.tasks = selectedProject.tasks.filter(task => !task.complete)
   saveAndRender()
