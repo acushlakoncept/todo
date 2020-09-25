@@ -70,8 +70,7 @@ modalElement.innerHTML = `<div class="modal-dialog" role="document">
             <input id='name' name='name' type="text" class="form-control" id="task-name" placeholder="Task name" required>
           </div>
           <div class="form-group">
-            <select name='project' class="form-control" id="list-select" required>
-              <option data-index='1' value='default'>Default </option>
+            <select name='project' class="form-control project-list" id="project-select" required>
             </select>
           </div>
           <div class="form-group">

@@ -48,6 +48,18 @@ window.addEventListener("load", () => {
   displayPage();
 });
 
+createTaskBtn.addEventListener('click', e => {
+    const modEl = modalElement.querySelector('.project-list')
+    projects.forEach(project => {
+      const projectOption = document.createElement('option')
+      projectOption.dataset.projectId = project.id
+      projectOption.setAttribute('value', project.name)
+      projectOption.innerText = project.name
+      modEl.appendChild(projectOption)
+      
+    })
+})
+
 projectList.addEventListener("click", (e) => {
   if (e.target.tagName.toLowerCase() === "a") {
     selectedProjectId = e.target.dataset.projectId;
@@ -94,7 +106,7 @@ const render = () => {
         projectCards.querySelector('.card-header').innerText = selectedProject.name
         renderTaskCount(selectedProject)
         clearElement(projectCards.document.querySelector('project-task'))
-        // renderTasks(selectedProject)
+        renderTasks(selectedProject)
   }
 };
 
@@ -102,6 +114,28 @@ const renderTaskCount = (selectedProject) => {
   const incompleteTaskCount = selectedProject.tasks.filter(task => !task.complete).length
   const taskString = incompleteTaskCount === 1 ? 'task' : 'tasks'
   projectCards.querySelector('.project-task-count').innerText = `${incompleteTaskCount} ${taskString} remaining`
+}
+
+
+const renderTasks = (selectedProject) => {
+  selectedProject.tasks.forEach(task => {
+      const taskElement = document.createElement('div')
+      taskElement.classList.add('form-check')
+      taskElement.innerHTML = `
+      <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+      <label class="form-check-label" for="defaultCheck1">
+        Default checkbox
+      </label>
+      `
+      const checkbox = taskElement.querySelector('input')
+      checkbox.id = task.id
+      checkbox.checked = task.complete
+      const label = taskElement.querySelector('label')
+      label.htmlFor = task.id
+      label.append(task.name)
+      projectCards.appendChild(taskElement)
+
+  })
 }
 
 
