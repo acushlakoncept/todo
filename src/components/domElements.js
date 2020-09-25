@@ -40,7 +40,7 @@ const projectList = document.createElement("div");
 projectList.classList.add("project-links");
 const projectListTitle = document.createElement('h2')
 projectListTitle.classList.add('border-bottom', 'pb-2', 'title', 'mt-4')
-projectListTitle.innerHTML = `Lists <i class="fas fa-plus plus ml-4" data-name="project" data-toggle="modal" data-target="#projectModal">A</i>`;
+projectListTitle.innerHTML = `Projects <i class="fas fa-plus plus ml-4 btn-success p-1 rounded" data-name="project" data-toggle="modal" data-target="#projectModal"></i>`;
 projectList.appendChild(projectListTitle)
 const projectNav = document.createElement("nav");
 projectNav.classList.add('nav', 'flex-column', 'projects-nav')
@@ -69,10 +69,7 @@ modalElement.innerHTML = `<div class="modal-dialog" role="document">
           <div class="form-group">
             <input id='name' name='name' type="text" class="form-control" id="task-name" placeholder="Task name" required>
           </div>
-          <div class="form-group">
-            <select name='project' class="form-control project-list" id="project-select" required>
-            </select>
-          </div>
+
           <div class="form-group">
             <input id='description' name='description' type="text" class="form-control" id="task-desc" placeholder="Task decription" required>
           </div>
