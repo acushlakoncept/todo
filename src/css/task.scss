@@ -1,0 +1,16 @@
+.trash {
+  color: red;
+}
+
+.pen {
+  color: rgb(22, 65, 167);
+}
+
+.completed {
+  color: rgba($color: #000, $alpha: 0.4);
+  text-decoration: line-through;
+}
+
+.completed > div {
+  display: none;
+}

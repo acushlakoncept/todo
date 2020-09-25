@@ -157,7 +157,8 @@ const taskModal = (projects) => {
     form.reset();
     document.querySelector('#newTaskFormClose').click();
     renderList(projects);
-    renderMain(foundProject);
+    const foundProjectCard = projectCard(foundProject);
+    renderMain([foundProjectCard]);
   });
   return mod;
 };
