@@ -156,7 +156,29 @@ removeProject.classList.add('btn', 'btn-danger', 'btn-medium', 'delete-project',
 removeProject.innerText = 'Delete this project'
 projectCards.appendChild(removeProject)
 
-//TODO: tidy up unused code up here
+
+const mainPage = () => {
+  const page = document.createElement("div");
+  const side = document.createElement("div");
+  const main = document.createElement("main");
+
+  page.classList.add("row");
+  side.classList.add("col-3", "p-5", "side-bar");
+  main.classList.add("col-9", "bg-light", "p-5", "main", "d-flex", "flex-wrap");
+
+  side.appendChild(head);
+  side.appendChild(createTaskBtn);
+  side.appendChild(quickLinks);
+  side.appendChild(projectList);
+  main.appendChild(projectCards);
+  page.appendChild(side);
+  page.appendChild(main);
+  content.insertAdjacentElement("beforeend", modalElement);
+  content.insertAdjacentElement("beforeend", projectModal);
+
+  return page;
+};
+
 
 export {
   createTaskBtn,
@@ -165,5 +187,6 @@ export {
   projectList,
   modalElement,
   projectCards,
-  projectModal
+  projectModal,
+  mainPage
 };

@@ -7,7 +7,8 @@ import {
   projectList,
   modalElement,
   projectCards,
-  projectModal
+  projectModal,
+  mainPage
 } from "./components/domElements";
 
 const content = document.querySelector("#content");
@@ -19,27 +20,7 @@ let projects =
   JSON.parse(localStorage.getItem(LOCAL_STORAGE_PROJECT_KEY)) || [];
 let selectedProjectId = localStorage.getItem(LOCAL_STORAGE_PROJECT_ID_KEY);
 
-const mainPage = () => {
-  const page = document.createElement("div");
-  const side = document.createElement("div");
-  const main = document.createElement("main");
 
-  page.classList.add("row");
-  side.classList.add("col-3", "p-5", "side-bar");
-  main.classList.add("col-9", "bg-light", "p-5", "main", "d-flex", "flex-wrap");
-
-  side.appendChild(head);
-  side.appendChild(createTaskBtn);
-  side.appendChild(quickLinks);
-  side.appendChild(projectList);
-  main.appendChild(projectCards);
-  page.appendChild(side);
-  page.appendChild(main);
-  content.insertAdjacentElement("beforeend", modalElement);
-  content.insertAdjacentElement("beforeend", projectModal);
-
-  return page;
-};
 
 const displayPage = () => {
   content.appendChild(mainPage());
@@ -48,30 +29,6 @@ const displayPage = () => {
 window.addEventListener("load", () => {
   displayPage();
 });
-
-// const setProjectsForModal = () => {
-//   const modEl = modalElement.querySelector(".project-list");
-//   projects.forEach((project) => {
-//     const projectOption = document.createElement("option");
-//     projectOption.dataset.projectId = project.id;
-//     projectOption.setAttribute("value", project.name);
-//     projectOption.innerText = project.name;
-//     modEl.appendChild(projectOption);
-//   });
-
-//   modEl.querySelector(`[project-id="${selectedProjectId}"]`).selected = true;
-// };
-
-// createTaskBtn.addEventListener("click", setProjectsForModal);
-// projectCards
-//   .querySelector(".add-task")
-//   .addEventListener("click", setProjectsForModal);
-
-// createTaskBtn.addEventListener("click", e => {
-//   // if (selectedProjectId === null) {
-//   //   alert('Please select a project')
-//   // }
-// });
 
 projectCards.querySelector(".delete-project").addEventListener("click", (e) => {
   projects = projects.filter((project) => project.id !== selectedProjectId);
@@ -213,6 +170,17 @@ const renderTasks = (selectedProject) => {
     projectCards.querySelector(".project-task").appendChild(taskElement);
   });
 };
+
+// HANDLES TASK COMPLETION
+projectCards.querySelector('.project-task').addEventListener('click', e => {
+  if (e.target.tagName.toLowerCase() === 'input') {
+      const selectedProject = projects.find(project => project.id === selectedProjectId)
+      const selectedTask = selectedProject.tasks.find(task => task.id === e.target.id)
+      selectedTask.complete = e.target.checked
+      save()
+      renderTaskCount(selectedProject)
+  }
+})
 
 const renderProjects = () => {
   projects.forEach((project) => {

@@ -34,3 +34,8 @@
   color: #ccc;
   text-align: center;
 }
+
+[type="checkbox"]:checked + label {
+  opacity: 0.3;
+  text-decoration: line-through;
+}
