@@ -16,7 +16,6 @@ const content = document.querySelector("#content");
 const deleteProjectBtn = projectCards.querySelector(".delete-project");
 const completeTaskInput = projectCards.querySelector('.project-task');
 const clearCompletedTaskBtn = projectCards.querySelector(".clear-task");
-const editTaskBtn = projectCards.querySelector(".task-edit");
 
 const LOCAL_STORAGE_PROJECT_KEY = "todo-projects";
 const LOCAL_STORAGE_PROJECT_ID_KEY = "todo.selectedProjectId";
@@ -33,16 +32,23 @@ window.addEventListener("load", () => {
   displayPage();
 });
 
+createTaskBtn.addEventListener('click', e => {
+  if(selectedProjectId === null) {
+    alert('Select a project first')
+  }
+})
 
 deleteProjectBtn.addEventListener("click", (e) => {
   projects = projects.filter((project) => project.id !== selectedProjectId);
   selectedProjectId = null;
+  createTaskBtn.dataset.target = "";
   saveAndRender();
 });
 
 projectList.addEventListener("click", (e) => {
   if (e.target.tagName.toLowerCase() === "a") {
     selectedProjectId = e.target.dataset.projectId;
+    createTaskBtn.dataset.target = "#taskModal";
     saveAndRender();
   }
 });
@@ -84,13 +90,6 @@ editTaskElement.addEventListener('submit', e => {
   const taskNote = e.target.elements[4].value;
   const taskId = e.target.elements[5].value;
 
-  console.log('task name ', taskName)
-  console.log('task desc ', taskDesc)
-  console.log('task date ', taskDate)
-  console.log('task priority ', taskPriority)
-  console.log('task note ', taskNote)
-  console.log('task id ', taskId)
-
   const currentProject = projects.find(project => project.id === selectedProjectId )
   const currentTask = currentProject.tasks.find(task => task.id === taskId)
   currentTask.name = taskName
@@ -111,24 +110,11 @@ modalElement.addEventListener("submit", (e) => {
     return alert('select a project first') 
   }
 
-  // console.log(e.target.elements[0])
-  // console.log(e.target.elements[1])
-  // console.log(e.target.elements[2])
-  // console.log(e.target.elements[3])
-  // console.log(e.target.elements[4])
-  // console.log(e)
   const taskName = e.target.elements[0].value;
   const taskDesc = e.target.elements[1].value;
   const taskDate = e.target.elements[2].value;
   const taskPriority = e.target.elements[3].value;
   const taskNote = e.target.elements[4].value;
-
-
-  // console.log('task name ', taskName)
-  // console.log('task desc ', taskDesc)
-  // console.log('task date ', taskDate)
-  // console.log('task priority ', taskPriority)
-  // console.log('task note ', taskNote)
 
   if (
     taskName == null ||
