@@ -17,10 +17,12 @@ const clearCompletedTaskBtn = projectCards.querySelector(".clear-task");
 
 const LOCAL_STORAGE_PROJECT_KEY = "todo-projects";
 const LOCAL_STORAGE_PROJECT_ID_KEY = "todo.selectedProjectId";
+const LOCAL_STORAGE_DEFAULT_PROJECT_KEY = "todo.defaultProject";
 
 let projects =
   JSON.parse(localStorage.getItem(LOCAL_STORAGE_PROJECT_KEY)) || [];
 let selectedProjectId = localStorage.getItem(LOCAL_STORAGE_PROJECT_ID_KEY);
+let defaultProject = localStorage.getItem(LOCAL_STORAGE_DEFAULT_PROJECT_KEY);
 
 const displayPage = () => {
   content.appendChild(mainPage());
@@ -29,6 +31,8 @@ const displayPage = () => {
 window.addEventListener("load", () => {
   displayPage();
 });
+
+if (selectedProjectId === null) projectCards.style.visibility = 'hidden'
 
 createTaskBtn.addEventListener("click", (e) => {
   if (selectedProjectId === null) {
@@ -46,6 +50,7 @@ deleteProjectBtn.addEventListener("click", (e) => {
 projectList.addEventListener("click", (e) => {
   if (e.target.tagName.toLowerCase() === "a") {
     selectedProjectId = e.target.dataset.projectId;
+    projectCards.style.visibility = ''
     createTaskBtn.dataset.target = "#taskModal";
     saveAndRender();
   }
@@ -165,20 +170,19 @@ clearCompletedTaskBtn.addEventListener("click", (e) => {
 
 const createDefaultProject = () => {
   const project = createProject("Default Project");
-  if (projects.find((project) => project.name !== "Default Project")) {
-    projects.push(project);
+  projects.push(project);
 
-    const todaysDate = new Date().toISOString().slice(0, 10);
-    const task = createTask(
-      "Default Task",
-      todaysDate,
-      "A brief description",
-      "Low",
-      "Default task note"
-    );
-    project.tasks.push(task);
-    saveAndRender();
-  }
+  const todaysDate = new Date().toISOString().slice(0, 10);
+  const task = createTask(
+    "Default Task",
+    todaysDate,
+    "A brief description",
+    "Low",
+    "Default task note"
+  );
+  project.tasks.push(task);
+  defaultProject = Date.now().toString();
+  saveAndRender();
 };
 
 const createTask = (name, date, description, priority, note) => {
@@ -205,6 +209,7 @@ const saveAndRender = () => {
 const save = () => {
   localStorage.setItem(LOCAL_STORAGE_PROJECT_KEY, JSON.stringify(projects));
   localStorage.setItem(LOCAL_STORAGE_PROJECT_ID_KEY, selectedProjectId);
+  localStorage.setItem(LOCAL_STORAGE_DEFAULT_PROJECT_KEY, defaultProject);
 };
 
 const render = () => {
@@ -301,5 +306,5 @@ const clearElement = (element) => {
   }
 };
 
-createDefaultProject();
+if (defaultProject === null) createDefaultProject();
 render();
