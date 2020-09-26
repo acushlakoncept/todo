@@ -165,8 +165,20 @@ clearCompletedTaskBtn.addEventListener("click", (e) => {
 
 const createDefaultProject = () => {
   const project = createProject("Default Project");
-  projects.push(project);
-  saveAndRender();
+  if (projects.find((project) => project.name !== "Default Project")) {
+    projects.push(project);
+
+    const todaysDate = new Date().toISOString().slice(0, 10);
+    const task = createTask(
+      "Default Task",
+      todaysDate,
+      "A brief description",
+      "Low",
+      "Default task note"
+    );
+    project.tasks.push(task);
+    saveAndRender();
+  }
 };
 
 const createTask = (name, date, description, priority, note) => {
@@ -289,4 +301,5 @@ const clearElement = (element) => {
   }
 };
 
+createDefaultProject();
 render();
