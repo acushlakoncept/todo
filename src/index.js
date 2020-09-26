@@ -2,8 +2,6 @@ import "bootstrap";
 import "./css/app.scss";
 import {
   createTaskBtn,
-  head,
-  quickLinks,
   projectList,
   modalElement,
   projectCards,
@@ -14,7 +12,7 @@ import {
 
 const content = document.querySelector("#content");
 const deleteProjectBtn = projectCards.querySelector(".delete-project");
-const completeTaskInput = projectCards.querySelector('.project-task');
+const completeTaskInput = projectCards.querySelector(".project-task");
 const clearCompletedTaskBtn = projectCards.querySelector(".clear-task");
 
 const LOCAL_STORAGE_PROJECT_KEY = "todo-projects";
@@ -32,11 +30,11 @@ window.addEventListener("load", () => {
   displayPage();
 });
 
-createTaskBtn.addEventListener('click', e => {
-  if(selectedProjectId === null) {
-    alert('Select a project first')
+createTaskBtn.addEventListener("click", (e) => {
+  if (selectedProjectId === null) {
+    alert("Select a project first");
   }
-})
+});
 
 deleteProjectBtn.addEventListener("click", (e) => {
   projects = projects.filter((project) => project.id !== selectedProjectId);
@@ -66,21 +64,23 @@ projectModal.addEventListener("submit", (e) => {
 });
 
 // EDIT TASK
-projectCards.addEventListener('click', e => {
-  if(e.target.classList.contains('task-edit')) {
-    const taskId = e.target.parentNode.firstElementChild.id
-    const currentProject = projects.find(project => project.id === selectedProjectId )
-    const currentTask = currentProject.tasks.find(task => task.id === taskId)
-    editTaskElement.querySelector('#taskName').value = currentTask.name
-    editTaskElement.querySelector('#taskDesc').value = currentTask.description
-    editTaskElement.querySelector('#taskDate').value = currentTask.date
-    editTaskElement.querySelector('#taskPriority').value = currentTask.priority
-    editTaskElement.querySelector('#taskNote').value = currentTask.note
-    editTaskElement.querySelector('#taskId').value = taskId
+projectCards.addEventListener("click", (e) => {
+  if (e.target.classList.contains("task-edit")) {
+    const taskId = e.target.parentNode.firstElementChild.id;
+    const currentProject = projects.find(
+      (project) => project.id === selectedProjectId
+    );
+    const currentTask = currentProject.tasks.find((task) => task.id === taskId);
+    editTaskElement.querySelector("#taskName").value = currentTask.name;
+    editTaskElement.querySelector("#taskDesc").value = currentTask.description;
+    editTaskElement.querySelector("#taskDate").value = currentTask.date;
+    editTaskElement.querySelector("#taskPriority").value = currentTask.priority;
+    editTaskElement.querySelector("#taskNote").value = currentTask.note;
+    editTaskElement.querySelector("#taskId").value = taskId;
   }
-})
+});
 
-editTaskElement.addEventListener('submit', e => {
+editTaskElement.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const taskName = e.target.elements[0].value;
@@ -90,24 +90,25 @@ editTaskElement.addEventListener('submit', e => {
   const taskNote = e.target.elements[4].value;
   const taskId = e.target.elements[5].value;
 
-  const currentProject = projects.find(project => project.id === selectedProjectId )
-  const currentTask = currentProject.tasks.find(task => task.id === taskId)
-  currentTask.name = taskName
-  currentTask.description = taskDesc
-  currentTask.date = taskDate
-  currentTask.priority = taskPriority
-  currentTask.note = taskNote
+  const currentProject = projects.find(
+    (project) => project.id === selectedProjectId
+  );
+  const currentTask = currentProject.tasks.find((task) => task.id === taskId);
+  currentTask.name = taskName;
+  currentTask.description = taskDesc;
+  currentTask.date = taskDate;
+  currentTask.priority = taskPriority;
+  currentTask.note = taskNote;
 
   saveAndRender();
   editTaskElement.querySelector('[data-dismiss="modal"]').click();
-
-})
+});
 
 modalElement.addEventListener("submit", (e) => {
   e.preventDefault();
-  if (selectedProjectId === 'null') {
+  if (selectedProjectId === "null") {
     document.querySelector('[data-dismiss="modal"]').click();
-    return alert('select a project first') 
+    return alert("select a project first");
   }
 
   const taskName = e.target.elements[0].value;
@@ -138,28 +139,35 @@ modalElement.addEventListener("submit", (e) => {
   modalElement.querySelector('[data-dismiss="modal"]').click();
 });
 
-completeTaskInput.addEventListener('click', e => {
-  if (e.target.tagName.toLowerCase() === 'input') {
-      const selectedProject = projects.find(project => project.id === selectedProjectId)
-      const selectedTask = selectedProject.tasks.find(task => task.id === e.target.id)
-      selectedTask.complete = e.target.checked
-      save()
-      renderTaskCount(selectedProject)
+completeTaskInput.addEventListener("click", (e) => {
+  if (e.target.tagName.toLowerCase() === "input") {
+    const selectedProject = projects.find(
+      (project) => project.id === selectedProjectId
+    );
+    const selectedTask = selectedProject.tasks.find(
+      (task) => task.id === e.target.id
+    );
+    selectedTask.complete = e.target.checked;
+    save();
+    renderTaskCount(selectedProject);
   }
-})
+});
 
-
-clearCompletedTaskBtn.addEventListener('click', e => {
-  const selectedProject = projects.find(project => project.id === selectedProjectId)
-  selectedProject.tasks = selectedProject.tasks.filter(task => !task.complete)
-  saveAndRender()
-})
+clearCompletedTaskBtn.addEventListener("click", (e) => {
+  const selectedProject = projects.find(
+    (project) => project.id === selectedProjectId
+  );
+  selectedProject.tasks = selectedProject.tasks.filter(
+    (task) => !task.complete
+  );
+  saveAndRender();
+});
 
 const createDefaultProject = () => {
   const project = createProject("Default Project");
   projects.push(project);
   saveAndRender();
-}
+};
 
 const createTask = (name, date, description, priority, note) => {
   return {
@@ -219,16 +227,21 @@ const renderTaskCount = (selectedProject) => {
 const renderTasks = (selectedProject) => {
   selectedProject.tasks.forEach((task) => {
     const taskElement = document.createElement("div");
-    taskElement.classList.add("form-check", "border-bottom", "pb-2", "pt-2", "ml-2");
+    taskElement.classList.add(
+      "form-check",
+      "border-bottom",
+      "pb-2",
+      "pt-2",
+      "ml-2"
+    );
     taskElement.innerHTML = `
       <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
       <label class="form-check-label" for="defaultCheck1">
         
       </label>
+      <small class="due-date"></small>
       <i class="fas fa-edit task-edit float-right pr-3 text-primary" data-task-edit data-toggle="modal" data-target="#editTaskModal" ></i>
       `;
-
-      // <button class="btn btn-primary mt-4 mb-4 text-center" data-name="task" data-toggle="modal" data-target="#taskModal">Create Task</button>
 
     const checkbox = taskElement.querySelector("input");
     checkbox.id = task.id;
@@ -236,6 +249,23 @@ const renderTasks = (selectedProject) => {
     const label = taskElement.querySelector("label");
     label.htmlFor = task.id;
     label.append(task.name);
+    const dueDate = taskElement.querySelector("small");
+    dueDate.innerText = ` | ${task.date}`;
+    taskElement.addEventListener("mouseover", (e) => {
+      // label.setAttribute('title', task.description)
+      dueDate.innerHTML = `
+      <br>
+      Description: ${task.description} <br>
+      Due Date: ${task.date} <br>
+      Priority: ${task.priority} <br>
+      Note: ${task.note}
+      `;
+    });
+
+    taskElement.addEventListener("mouseout", (e) => {
+      dueDate.innerHTML = `| ${task.date}`;
+    });
+
     projectCards.querySelector(".project-task").appendChild(taskElement);
   });
 };
@@ -258,6 +288,5 @@ const clearElement = (element) => {
     element.removeChild(element.firstChild);
   }
 };
-
 
 render();

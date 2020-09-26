@@ -27,14 +27,14 @@ const appTitle = document.createElement("h2");
 appTitle.innerText = "My TODO";
 head.appendChild(appTitle);
 
-const quickLinks = document.createElement("div");
-quickLinks.classList.add("quick-links");
-quickLinks.innerHTML = `<h2 class="border-bottom pb-2 title mt-4">Quick Links</h2>
-<nav class="nav flex-column">
-  <a id='allTasks' class="nav-link" href="#">All Task</a>
-  <a id='todayTasks' class="nav-link" href="#">Today</a>
-  <a id='weeklyTasks' class="nav-link" href="#">This Week</a>
-</nav>`;
+// const quickLinks = document.createElement("div");
+// quickLinks.classList.add("quick-links");
+// quickLinks.innerHTML = `<h2 class="border-bottom pb-2 title mt-4">Quick Links</h2>
+// <nav class="nav flex-column">
+//   <a id='allTasks' class="nav-link" href="#">All Task</a>
+//   <a id='todayTasks' class="nav-link" href="#">Today</a>
+//   <a id='weeklyTasks' class="nav-link" href="#">This Week</a>
+// </nav>`;
 
 const projectList = document.createElement("div");
 projectList.classList.add("project-links");
@@ -227,7 +227,7 @@ const mainPage = () => {
 
   side.appendChild(head);
   side.appendChild(createTaskBtn);
-  side.appendChild(quickLinks);
+  // side.appendChild(quickLinks);
   side.appendChild(projectList);
   main.appendChild(projectCards);
   page.appendChild(side);
@@ -242,8 +242,6 @@ const mainPage = () => {
 
 export {
   createTaskBtn,
-  head,
-  quickLinks,
   projectList,
   modalElement,
   projectCards,
