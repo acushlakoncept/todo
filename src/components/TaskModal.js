@@ -1,21 +1,13 @@
-import { renderList, renderMain } from '../utils/render';
-import projectCard from './Project';
-
-const generateOptions = (arr, projectName) => {
-  arr.map((prj) => `<option slected=${projectName === prj.name}> ${prj.name} </option>`);
-};
-
-const taskModal = (projects, index) => {
-  const project = projects[index];
-  const mod = document.createElement('div');
-  mod.classList.add('modal', 'fade');
-  mod.id = 'taskModal';
-  mod.setAttribute('tabindex', '-1');
-  mod.setAttribute('role', 'dialog');
-  mod.setAttribute('aria-labelledby', 'dialog');
-  mod.setAttribute('role', 'exampleModalLabel');
-  mod.setAttribute('aria-hidden', 'true');
-  mod.innerHTML = `<div class="modal-dialog" role="document">
+export default () => {
+  const modalElement = document.createElement('div');
+  modalElement.classList.add('modal', 'fade');
+  modalElement.id = 'taskModal';
+  modalElement.setAttribute('tabindex', '-1');
+  modalElement.setAttribute('role', 'dialog');
+  modalElement.setAttribute('aria-labelledby', 'dialog');
+  modalElement.setAttribute('role', 'exampleModalLabel');
+  modalElement.setAttribute('aria-hidden', 'true');
+  modalElement.innerHTML = `<div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Add New Task</h5>
@@ -27,23 +19,19 @@ const taskModal = (projects, index) => {
         
         <form id='task-form'>
           <div class="form-group">
-            <input id='name' name='name' type="text" class="form-control" id="task-name" value=${project.name} placeholder="Task name" required>
-          </div>
-          <div class="form-group">
-            <select name='project' class="form-control" id="list-select" required>
-              ${project ? generateOptions(projects, project.name) : generateOptions(projects)}
-            </select>
-          </div>
-          <div class="form-group">
-            <input id='description' name='description' type="text" class="form-control" id="task-desc" value=${project.description}  placeholder="Task decription" required>
+            <input name='name' type="text" class="form-control" id="task-name" placeholder="Task name" required>
           </div>
 
           <div class="form-group">
-            <input id='date' name='date' type="date" class="form-control" id="task-date" value=${project.date}  required>
+            <input id='description' name='description' type="text" class="form-control" id="task-desc" placeholder="Task decription" required>
           </div>
 
           <div class="form-group">
-          <select id='priority' name='priority' class="form-control" id="priority" required>
+            <input id='date' name='date' type="date" class="form-control" id="task-date" required>
+          </div>
+
+          <div class="form-group">
+          <select name='priority' class="form-control" id="priority" required>
             <option value='Low'>Low</option>
             <option value='Medium'>Medium</option>
             <option value='High'>High</option>
@@ -51,7 +39,7 @@ const taskModal = (projects, index) => {
         </div>
 
         <div class="form-group">
-          <textarea id='note' name='note' class="form-control" id="task-note" rows="3" placeholder="Add Note" value=${project.note}  required></textarea>
+          <textarea name='note' class="form-control" id="task-note" rows="3" placeholder="Add Note" required></textarea>
         </div>
 
         <div class="modal-footer">
@@ -63,28 +51,6 @@ const taskModal = (projects, index) => {
     </div>
   </div>
   `;
-  const btn = mod.querySelector('#createTask');
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    const form = document.querySelector('#task-form');
-    const name = form.querySelector('#name').value;
-    const description = form.querySelector('#description').value;
-    const priority = form.querySelector('#priority').value;
-    const date = form.querySelector('#date').value;
-    const note = form.querySelector('#note').value;
-    const project = form.querySelector('#list-select');
-    const projectIndex = form.querySelector('#list-select').options[project.selectedIndex].getAttribute('data-index');
 
-    const foundProject = projects[projectIndex];
-    foundProject.addTask({
-      name, date, description, priority, note,
-    });
-    form.reset();
-    document.querySelector('#newTaskFormClose').click();
-    renderList(projects);
-    const foundProjectCard = projectCard(foundProject);
-    renderMain([foundProjectCard]);
-  });
-  return mod;
+  return modalElement;
 };
-export default taskModal;
