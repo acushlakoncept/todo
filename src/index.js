@@ -15,6 +15,7 @@ const content = document.querySelector("#content");
 const deleteProjectBtn = projectCards.querySelector(".delete-project");
 const completeTaskInput = projectCards.querySelector('.project-task');
 const clearCompletedTaskBtn = projectCards.querySelector(".clear-task");
+const editTaskBtn = projectCards.querySelector(".task-edit");
 
 const LOCAL_STORAGE_PROJECT_KEY = "todo-projects";
 const LOCAL_STORAGE_PROJECT_ID_KEY = "todo.selectedProjectId";
@@ -22,8 +23,6 @@ const LOCAL_STORAGE_PROJECT_ID_KEY = "todo.selectedProjectId";
 let projects =
   JSON.parse(localStorage.getItem(LOCAL_STORAGE_PROJECT_KEY)) || [];
 let selectedProjectId = localStorage.getItem(LOCAL_STORAGE_PROJECT_ID_KEY);
-
-
 
 const displayPage = () => {
   content.appendChild(mainPage());
@@ -93,6 +92,23 @@ modalElement.addEventListener("submit", (e) => {
   modalElement.querySelector('[data-dismiss="modal"]').click();
 });
 
+completeTaskInput.addEventListener('click', e => {
+  if (e.target.tagName.toLowerCase() === 'input') {
+      const selectedProject = projects.find(project => project.id === selectedProjectId)
+      const selectedTask = selectedProject.tasks.find(task => task.id === e.target.id)
+      selectedTask.complete = e.target.checked
+      save()
+      renderTaskCount(selectedProject)
+  }
+})
+
+
+clearCompletedTaskBtn.addEventListener('click', e => {
+  const selectedProject = projects.find(project => project.id === selectedProjectId)
+  selectedProject.tasks = selectedProject.tasks.filter(task => !task.complete)
+  saveAndRender()
+})
+
 const createDefaultProject = () => {
   const project = createProject("Default Project");
   projects.push(project);
@@ -157,12 +173,13 @@ const renderTaskCount = (selectedProject) => {
 const renderTasks = (selectedProject) => {
   selectedProject.tasks.forEach((task) => {
     const taskElement = document.createElement("div");
-    taskElement.classList.add("form-check");
+    taskElement.classList.add("form-check", "border-bottom", "pb-2", "pt-2", "ml-2");
     taskElement.innerHTML = `
       <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
       <label class="form-check-label" for="defaultCheck1">
         
       </label>
+      <i class="fas fa-edit task-edit float-right pr-3 text-primary"></i>
       `;
     const checkbox = taskElement.querySelector("input");
     checkbox.id = task.id;
@@ -173,23 +190,6 @@ const renderTasks = (selectedProject) => {
     projectCards.querySelector(".project-task").appendChild(taskElement);
   });
 };
-
-
-completeTaskInput.addEventListener('click', e => {
-  if (e.target.tagName.toLowerCase() === 'input') {
-      const selectedProject = projects.find(project => project.id === selectedProjectId)
-      const selectedTask = selectedProject.tasks.find(task => task.id === e.target.id)
-      selectedTask.complete = e.target.checked
-      save()
-      renderTaskCount(selectedProject)
-  }
-})
-
-clearCompletedTaskBtn.addEventListener('click', e => {
-  const selectedProject = projects.find(project => project.id === selectedProjectId)
-  selectedProject.tasks = selectedProject.tasks.filter(task => !task.complete)
-  saveAndRender()
-})
 
 const renderProjects = () => {
   projects.forEach((project) => {

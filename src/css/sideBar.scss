@@ -28,9 +28,13 @@
   font-weight: bold;
 }
 
+.project-name {
+  cursor: pointer;
+}
+
 .project-task-count {
   font-style: italic;
-  font-size: small;
+  font-size: 14px;
   color: #ccc;
   text-align: center;
 }
