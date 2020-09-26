@@ -4,7 +4,10 @@
   "description": "A simple Todo App to manage projects and associated task",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.config.js --watch"
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "start": "webpack --config webpack.config.js --watch"
+
   },
   "repository": {
     "type": "git",
