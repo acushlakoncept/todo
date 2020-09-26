@@ -8,6 +8,7 @@ import {
   modalElement,
   projectCards,
   projectModal,
+  editTaskElement,
   mainPage
 } from "./components/domElements";
 
@@ -31,6 +32,7 @@ const displayPage = () => {
 window.addEventListener("load", () => {
   displayPage();
 });
+
 
 deleteProjectBtn.addEventListener("click", (e) => {
   projects = projects.filter((project) => project.id !== selectedProjectId);
@@ -57,6 +59,51 @@ projectModal.addEventListener("submit", (e) => {
   projectModal.querySelector('[data-dismiss="modal"]').click();
 });
 
+// EDIT TASK
+projectCards.addEventListener('click', e => {
+  if(e.target.classList.contains('task-edit')) {
+    const taskId = e.target.parentNode.firstElementChild.id
+    const currentProject = projects.find(project => project.id === selectedProjectId )
+    const currentTask = currentProject.tasks.find(task => task.id === taskId)
+    editTaskElement.querySelector('#taskName').value = currentTask.name
+    editTaskElement.querySelector('#taskDesc').value = currentTask.description
+    editTaskElement.querySelector('#taskDate').value = currentTask.date
+    editTaskElement.querySelector('#taskPriority').value = currentTask.priority
+    editTaskElement.querySelector('#taskNote').value = currentTask.note
+    editTaskElement.querySelector('#taskId').value = taskId
+  }
+})
+
+editTaskElement.addEventListener('submit', e => {
+  e.preventDefault();
+
+  const taskName = e.target.elements[0].value;
+  const taskDesc = e.target.elements[1].value;
+  const taskDate = e.target.elements[2].value;
+  const taskPriority = e.target.elements[3].value;
+  const taskNote = e.target.elements[4].value;
+  const taskId = e.target.elements[5].value;
+
+  console.log('task name ', taskName)
+  console.log('task desc ', taskDesc)
+  console.log('task date ', taskDate)
+  console.log('task priority ', taskPriority)
+  console.log('task note ', taskNote)
+  console.log('task id ', taskId)
+
+  const currentProject = projects.find(project => project.id === selectedProjectId )
+  const currentTask = currentProject.tasks.find(task => task.id === taskId)
+  currentTask.name = taskName
+  currentTask.description = taskDesc
+  currentTask.date = taskDate
+  currentTask.priority = taskPriority
+  currentTask.note = taskNote
+
+  saveAndRender();
+  editTaskElement.querySelector('[data-dismiss="modal"]').click();
+
+})
+
 modalElement.addEventListener("submit", (e) => {
   e.preventDefault();
   if (selectedProjectId === 'null') {
@@ -64,11 +111,24 @@ modalElement.addEventListener("submit", (e) => {
     return alert('select a project first') 
   }
 
-  const taskName = e.target.children[0].children[0].value;
-  const taskDesc = e.target.children[2].children[0].value;
-  const taskDate = e.target.children[3].children[0].value;
-  const taskPriority = e.target.children[4].children[0].value;
-  const taskNote = e.target.children[5].children[0].value;
+  // console.log(e.target.elements[0])
+  // console.log(e.target.elements[1])
+  // console.log(e.target.elements[2])
+  // console.log(e.target.elements[3])
+  // console.log(e.target.elements[4])
+  // console.log(e)
+  const taskName = e.target.elements[0].value;
+  const taskDesc = e.target.elements[1].value;
+  const taskDate = e.target.elements[2].value;
+  const taskPriority = e.target.elements[3].value;
+  const taskNote = e.target.elements[4].value;
+
+
+  // console.log('task name ', taskName)
+  // console.log('task desc ', taskDesc)
+  // console.log('task date ', taskDate)
+  // console.log('task priority ', taskPriority)
+  // console.log('task note ', taskNote)
 
   if (
     taskName == null ||
@@ -179,8 +239,11 @@ const renderTasks = (selectedProject) => {
       <label class="form-check-label" for="defaultCheck1">
         
       </label>
-      <i class="fas fa-edit task-edit float-right pr-3 text-primary"></i>
+      <i class="fas fa-edit task-edit float-right pr-3 text-primary" data-task-edit data-toggle="modal" data-target="#editTaskModal" ></i>
       `;
+
+      // <button class="btn btn-primary mt-4 mb-4 text-center" data-name="task" data-toggle="modal" data-target="#taskModal">Create Task</button>
+
     const checkbox = taskElement.querySelector("input");
     checkbox.id = task.id;
     checkbox.checked = task.complete;
