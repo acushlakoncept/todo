@@ -1,6 +1,6 @@
 # TODO APP
 
-In this project, we built a simple Todo App using Webpack and ES6 by dynamically creating a majority of the DOM elements. Localstorage was used to persist data accross user's session.
+In this project, we built a simple Todo App using Webpack and ES6 by dynamically creating a majority of the DOM elements. Local storage was used to persist data across the user's session.
 
 - DOM Manipulation with JavaScript
 - LocalStorage
