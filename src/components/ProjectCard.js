@@ -1,4 +1,6 @@
 /* eslint-disable import/no-cycle */
+import { projectCardEventHandler } from './Listeners';
+
 export default () => {
   const projectCards = document.createElement('div');
   projectCards.classList.add('card', 'project-card');
@@ -28,5 +30,7 @@ export default () => {
   clearCompletedTask.innerText = 'Clear complete task';
   projectCards.appendChild(clearCompletedTask);
 
+
+  projectCards.addEventListener('click', projectCardEventHandler);
   return projectCards;
 };

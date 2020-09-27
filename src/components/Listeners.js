@@ -1,63 +1,58 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable no-alert */
 import {
   saveAndRender, createTask, createProject, renderTaskCount, renderProjects,
 } from '../utils/common';
 import store, { LOCAL_STORAGE_PROJECT_ID_KEY, save } from '../utils/data';
 
-export const editTaskEventHandler = () => {
+export const editTaskEventHandler = (e) => {
+  e.preventDefault();
+  const selectedProjectId = LOCAL_STORAGE_PROJECT_ID_KEY();
+  const editTaskElement = document.querySelector('#editTaskModal');
+  const projects = store();
+
+  const taskName = e.target.elements[0].value;
+  const taskDesc = e.target.elements[1].value;
+  const taskDate = e.target.elements[2].value;
+  const taskPriority = e.target.elements[3].value;
+  const taskNote = e.target.elements[4].value;
+  const taskId = e.target.elements[5].value;
+
+  const currentProject = projects.find(
+    (project) => project.id === selectedProjectId,
+  );
+  const currentTask = currentProject.tasks.find((task) => task.id === taskId);
+  currentTask.name = taskName;
+  currentTask.description = taskDesc;
+  currentTask.date = taskDate;
+  currentTask.priority = taskPriority;
+  currentTask.note = taskNote;
+
+  saveAndRender(projects, selectedProjectId);
+  editTaskElement.querySelector('[data-dismiss="modal"]').click();
+};
+
+export const projectCardEventHandler = (e) => {
   const selectedProjectId = LOCAL_STORAGE_PROJECT_ID_KEY();
 
   const projects = store();
   const editTaskElement = document.querySelector('#editTaskModal');
-
-  editTaskElement.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const taskName = e.target.elements[0].value;
-    const taskDesc = e.target.elements[1].value;
-    const taskDate = e.target.elements[2].value;
-    const taskPriority = e.target.elements[3].value;
-    const taskNote = e.target.elements[4].value;
-    const taskId = e.target.elements[5].value;
-
+  renderProjects();
+  if (e.target.classList.contains('task-edit')) {
+    const taskId = e.target.parentNode.firstElementChild.id;
     const currentProject = projects.find(
       (project) => project.id === selectedProjectId,
     );
     const currentTask = currentProject.tasks.find((task) => task.id === taskId);
-    currentTask.name = taskName;
-    currentTask.description = taskDesc;
-    currentTask.date = taskDate;
-    currentTask.priority = taskPriority;
-    currentTask.note = taskNote;
+    editTaskElement.querySelector('#taskName').value = currentTask.name;
+    editTaskElement.querySelector('#taskDesc').value = currentTask.description;
+    editTaskElement.querySelector('#taskDate').value = currentTask.date;
+    editTaskElement.querySelector('#taskPriority').value = currentTask.priority;
+    editTaskElement.querySelector('#taskNote').value = currentTask.note;
+    editTaskElement.querySelector('#taskId').value = taskId;
 
-    saveAndRender();
-    editTaskElement.querySelector('[data-dismiss="modal"]').click();
-  });
-};
-
-export const projectCardEventHandler = () => {
-  const selectedProjectId = LOCAL_STORAGE_PROJECT_ID_KEY();
-
-  const projects = store();
-  const projectCards = document.querySelector('.project-card');
-  const editTaskElement = document.querySelector('#editTaskModal');
-  renderProjects();
-
-  projectCards.addEventListener('click', (e) => {
-    if (e.target.classList.contains('task-edit')) {
-      const taskId = e.target.parentNode.firstElementChild.id;
-      const currentProject = projects.find(
-        (project) => project.id === selectedProjectId,
-      );
-      const currentTask = currentProject.tasks.find((task) => task.id === taskId);
-      editTaskElement.querySelector('#taskName').value = currentTask.name;
-      editTaskElement.querySelector('#taskDesc').value = currentTask.description;
-      editTaskElement.querySelector('#taskDate').value = currentTask.date;
-      editTaskElement.querySelector('#taskPriority').value = currentTask.priority;
-      editTaskElement.querySelector('#taskNote').value = currentTask.note;
-      editTaskElement.querySelector('#taskId').value = taskId;
-    }
-  });
+    editTaskElement.addEventListener('submit', editTaskEventHandler);
+  }
 };
 
 export const projectModalEventHandler = () => {

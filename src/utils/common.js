@@ -90,6 +90,7 @@ export const renderProjects = () => {
 
     projectElem.addEventListener('click', (e) => {
       const selectedProjectId = e.target.getAttribute('data-project-id');
+      // eslint-disable-next-line no-use-before-define
       saveAndRender(projects, selectedProjectId);
     });
 
