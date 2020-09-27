@@ -157,7 +157,7 @@ export const clearCompletedTaskEventHandler = () => {
 
 export const completedTaskEventhandler = (e) => {
   const projects = store();
-  const selectedProjectId = LOCAL_STORAGE_PROJECT_ID_KEY;
+  const selectedProjectId = LOCAL_STORAGE_PROJECT_ID_KEY();
   if (e.target.tagName.toLowerCase() === 'input') {
     const selectedProject = projects.find(
       (project) => project.id === selectedProjectId,
