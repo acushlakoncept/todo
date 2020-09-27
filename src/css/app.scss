@@ -2,3 +2,9 @@
 @import "./sideBar.scss";
 @import "./main.css";
 @import "./task.scss";
+
+.card {
+  width: 20rem;
+  height: fit-content;
+  padding: 20px;
+}
