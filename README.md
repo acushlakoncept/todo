@@ -31,8 +31,6 @@ $ npm install
 $ npm run start
 ```
 
-View the project on your browser from : http://127.0.0.1:5500/dist/index.html
-
 ## Author
 
 **Uduak Essien**
