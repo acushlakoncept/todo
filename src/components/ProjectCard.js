@@ -8,8 +8,14 @@ import {
 export default () => {
   const projects = store();
   const currentProjectId = LOCAL_STORAGE_PROJECT_ID_KEY();
-  const currentProject = projects.find((project) => project.id === currentProjectId);
-  const uncompletedTasks = currentProject.tasks.filter((task) => !task.complete);
+  let currentProject;
+  let uncompletedTasks;
+  let countMessage;
+  if (currentProjectId) {
+    currentProject = projects.find((project) => project.id === currentProjectId);
+    uncompletedTasks = currentProject.tasks.filter((task) => !task.complete);
+    countMessage = `${uncompletedTasks.length} ${uncompletedTasks.length > 1 ? 'tasks' : 'task'} remaining`;
+  }
 
   const projectCards = document.createElement('div');
   projectCards.classList.add('card', 'project-card');
@@ -18,7 +24,7 @@ export default () => {
   projectCardHead.innerText = 'Default';
   projectCards.appendChild(projectCardHead);
   const projectTaskCount = document.createElement('p');
-  projectTaskCount.innerHTML = `${uncompletedTasks.length} ${uncompletedTasks.length > 1 ? 'tasks' : 'task'} remaining`;
+  projectTaskCount.innerHTML = currentProjectId && countMessage;
   projectTaskCount.classList.add('project-task-count');
   projectCards.appendChild(projectTaskCount);
   const projectCardList = document.createElement('div');

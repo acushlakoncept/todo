@@ -99,7 +99,7 @@ export const createTaskEventHandler = (e) => {
   e.preventDefault();
   const taskModal = document.querySelector('#task-form');
   if (!selectedProjectId) {
-    document.querySelecselectedProjectIdtor('[data-dismiss="modal"]').click();
+    document.querySelector('[data-dismiss="modal"]').click();
     return alert('select a project first');
   }
   const taskName = e.target.elements[0].value;
