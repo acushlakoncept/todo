@@ -16,7 +16,7 @@ In this project, we built a simple Todo App using Webpack and ES6 by dynamically
 - BootStrap
 
 ## Live Demo
-[Live Demo Link](#)
+[Live Demo Link](https://acushlakoncept.github.io/todo/)
 
 
 ## Getting Started
