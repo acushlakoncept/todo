@@ -10,7 +10,7 @@ export default () => {
   projectTaskCount.classList.add('project-task-count');
   projectCards.appendChild(projectTaskCount);
   const projectCardList = document.createElement('div');
-  projectCardList.classList.add('list-group', 'list-group-flush', 'projsetAttributeect-task');
+  projectCardList.classList.add('list-group', 'list-group-flush', 'project-task');
   projectCards.appendChild(projectCardList);
   const addTaskBtn = document.createElement('button');
   addTaskBtn.classList.add('btn', 'btn-success', 'btn-medium', 'add-task', 'mt-4');

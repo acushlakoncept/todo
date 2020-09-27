@@ -1,10 +1,6 @@
 /* eslint-disable import/no-cycle */
 import projectCards from '../components/ProjectCard';
-import projectList from '../components/ProjectList';
 import store, { LOCAL_STORAGE_PROJECT_ID_KEY, save } from './data';
-
-const selectedProjectId = localStorage.getItem(LOCAL_STORAGE_PROJECT_ID_KEY);
-const projects = store();
 
 export const createProject = (name) => ({ id: Date.now().toString(), name, tasks: [] });
 
@@ -34,8 +30,7 @@ export const renderTaskCount = (selectedProject) => {
   ).innerText = `${incompleteTaskCount} ${taskString} remaining`;
 };
 
-export const renderTasks = (selectedProject) => {
-  const cards = projectCards();
+export const renderTasks = (selectedProject, card) => {
   selectedProject.tasks.forEach((task) => {
     const taskElement = document.createElement('div');
     taskElement.classList.add(
@@ -63,7 +58,6 @@ export const renderTasks = (selectedProject) => {
     const dueDate = taskElement.querySelector('small');
     dueDate.innerText = ` | ${task.date}`;
     taskElement.addEventListener('mouseover', () => {
-      // label.setAttribute('title', task.description)
       dueDate.innerHTML = `
       <br>
       Description: ${task.description} <br>
@@ -76,43 +70,53 @@ export const renderTasks = (selectedProject) => {
     taskElement.addEventListener('mouseout', () => {
       dueDate.innerHTML = `| ${task.date}`;
     });
-
-    cards.querySelector('.project-task').appendChild(taskElement);
+    card.querySelector('.project-task').appendChild(taskElement);
   });
 };
 
 export const renderProjects = () => {
-  const navLinks = document.querySelector('.projects-nav');
+  const projectId = LOCAL_STORAGE_PROJECT_ID_KEY();
   const projects = store();
+  const navLinks = document.querySelector('.projects-nav');
   navLinks.innerHTML = '';
   projects.forEach((project) => {
     const projectElem = document.createElement('a');
     projectElem.dataset.projectId = project.id;
     projectElem.classList.add('project-name', 'nav-link');
     projectElem.innerText = project.name;
-    if (project.id === selectedProjectId) {
+    if (project.id === projectId) {
       projectElem.classList.add('active-project');
     }
+
+    projectElem.addEventListener('click', (e) => {
+      const selectedProjectId = e.target.getAttribute('data-project-id');
+      saveAndRender(projects, selectedProjectId);
+    });
+
     navLinks.appendChild(projectElem);
   });
 };
 
 export const render = () => {
-  clearElement(projectList().querySelector('.projects-nav'));
+  const projects = store();
+  const selectedProjectId = LOCAL_STORAGE_PROJECT_ID_KEY();
+  const card = projectCards();
+  clearElement(document.querySelector('.projects-nav'));
   renderProjects();
 
   const selectedProject = projects.find(
     (project) => project.id === selectedProjectId,
   );
-
   if (selectedProjectId === null) {
-    projectCards().style.display = 'none';
+    card.style.display = 'none';
   } else {
-    projectCards().style.display = '';
-    projectCards().querySelector('.card-header').innerText = selectedProject.name;
+    card.style.display = '';
+    card.querySelector('.card-header').innerText = selectedProject.name;
     renderTaskCount(selectedProject);
-    clearElement(projectCards.querySelector('.project-task'));
-    renderTasks(selectedProject);
+    clearElement(card.querySelector('.project-task'));
+    renderTasks(selectedProject, card);
+    clearElement(document.querySelector('.main'));
+    document.querySelector('.main').appendChild(card);
   }
 };
 

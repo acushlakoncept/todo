@@ -1,3 +1,5 @@
+import { createTaskEventHandler } from './Listeners';
+
 export default () => {
   const modalElement = document.createElement('div');
   modalElement.classList.add('modal', 'fade');
@@ -51,6 +53,8 @@ export default () => {
     </div>
   </div>
   `;
+
+  modalElement.querySelector('#task-form').addEventListener('submit', createTaskEventHandler);
 
   return modalElement;
 };
