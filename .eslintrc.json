@@ -16,8 +16,8 @@
     "eol-last": "off",
     "arrow-parens": "off"
   },
-  "settings": {
-    "import/core-modules": ["bootstrap"]
-  },
-  "ignorePatterns": ["dist/", "build/"]
+  "ignorePatterns": [
+    "dist/",
+    "build/"
+  ]
 }
