@@ -7,7 +7,6 @@
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
     "start": "webpack --config webpack.config.js --watch"
-
   },
   "repository": {
     "type": "git",
@@ -29,7 +28,11 @@
   },
   "homepage": "https://github.com/acushlakoncept/todo#readme",
   "devDependencies": {
+    "babel-eslint": "^8.2.6",
     "css-loader": "^4.3.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
     "node-sass": "^4.14.1",
     "postcss-loader": "^4.0.2",
     "sass-loader": "^10.0.2",
