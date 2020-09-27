@@ -1,0 +1,9 @@
+@import "~bootstrap/scss/bootstrap";
+@import "./sideBar.scss";
+@import "./task.scss";
+
+.card {
+  width: 20rem;
+  height: fit-content;
+  padding: 20px;
+}

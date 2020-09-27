@@ -1,0 +1,46 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "A simple Todo App to manage projects and associated task",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "start": "webpack --config webpack.config.js --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acushlakoncept/todo.git"
+  },
+  "keywords": [
+    "todo",
+    "todo list",
+    "app",
+    "javascript",
+    "webpack",
+    "html",
+    "css"
+  ],
+  "author": "Uduak Essien and Olawale Joseph",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/acushlakoncept/todo/issues"
+  },
+  "homepage": "https://github.com/acushlakoncept/todo#readme",
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "css-loader": "^4.3.0",
+    "eslint": "^7.10.0",
+    "node-sass": "^4.14.1",
+    "postcss-loader": "^4.0.2",
+    "sass-loader": "^10.0.2",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
+  },
+  "dependencies": {
+    "bootstrap": "^4.5.2",
+    "jquery": "^3.5.1",
+    "popper.js": "^1.16.1"
+  }
+}
