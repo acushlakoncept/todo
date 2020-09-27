@@ -25,7 +25,7 @@ export const renderTaskCount = (selectedProject) => {
     (task) => !task.complete,
   ).length;
   const taskString = incompleteTaskCount === 1 ? 'task' : 'tasks';
-  projectCards().querySelector(
+  document.querySelector(
     '.project-task-count',
   ).innerText = `${incompleteTaskCount} ${taskString} remaining`;
 };

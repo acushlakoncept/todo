@@ -1,3 +1,4 @@
+import store, { LOCAL_STORAGE_PROJECT_ID_KEY } from '../utils/data';
 /* eslint-disable import/no-cycle */
 import {
   clearCompletedTaskEventHandler, completedTaskEventhandler,
@@ -5,6 +6,11 @@ import {
 } from './Listeners';
 
 export default () => {
+  const projects = store();
+  const currentProjectId = LOCAL_STORAGE_PROJECT_ID_KEY();
+  const currentProject = projects.find((project) => project.id === currentProjectId);
+  const uncompletedTasks = currentProject.tasks.filter((task) => !task.complete);
+
   const projectCards = document.createElement('div');
   projectCards.classList.add('card', 'project-card');
   const projectCardHead = document.createElement('div');
@@ -12,6 +18,7 @@ export default () => {
   projectCardHead.innerText = 'Default';
   projectCards.appendChild(projectCardHead);
   const projectTaskCount = document.createElement('p');
+  projectTaskCount.innerHTML = `${uncompletedTasks.length} ${uncompletedTasks.length > 1 ? 'tasks' : 'task'} remaining`;
   projectTaskCount.classList.add('project-task-count');
   projectCards.appendChild(projectTaskCount);
   const projectCardList = document.createElement('div');
