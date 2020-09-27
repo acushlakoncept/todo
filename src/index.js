@@ -2,11 +2,12 @@
 import 'bootstrap';
 import './css/app.scss';
 import {
-  render, saveAndRender, createProject, createTask,
+  saveAndRender, createProject, createTask, render,
 } from './utils/common';
 import mainPage from './components/MainPage';
 
 import store from './utils/data';
+import { createTaskBtnEventHandler, projectModalEventHandler } from './components/Listeners';
 
 const content = document.querySelector('#content');
 
@@ -29,7 +30,9 @@ const createDefaultProject = () => {
       'Default task note',
     );
     project.tasks.push(task);
-    saveAndRender();
+    projects.push(project);
+
+    saveAndRender(projects, project.id);
   }
 };
 
@@ -37,4 +40,6 @@ window.addEventListener('load', () => {
   displayPage();
   createDefaultProject();
   render();
+  createTaskBtnEventHandler();
+  projectModalEventHandler();
 });

@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 import projectCards from '../components/ProjectCard';
 import projectList from '../components/ProjectList';
-import store, { LOCAL_STORAGE_PROJECT_ID_KEY } from './data';
+import store, { LOCAL_STORAGE_PROJECT_ID_KEY, save } from './data';
 
 const selectedProjectId = localStorage.getItem(LOCAL_STORAGE_PROJECT_ID_KEY);
 const projects = store();
@@ -82,6 +82,9 @@ export const renderTasks = (selectedProject) => {
 };
 
 export const renderProjects = () => {
+  const navLinks = document.querySelector('.projects-nav');
+  const projects = store();
+  navLinks.innerHTML = '';
   projects.forEach((project) => {
     const projectElem = document.createElement('a');
     projectElem.dataset.projectId = project.id;
@@ -90,7 +93,7 @@ export const renderProjects = () => {
     if (project.id === selectedProjectId) {
       projectElem.classList.add('active-project');
     }
-    projectList().querySelector('.projects-nav').appendChild(projectElem);
+    navLinks.appendChild(projectElem);
   });
 };
 
@@ -102,7 +105,7 @@ export const render = () => {
     (project) => project.id === selectedProjectId,
   );
 
-  if (selectedProjectId == null) {
+  if (selectedProjectId === null) {
     projectCards().style.display = 'none';
   } else {
     projectCards().style.display = '';
@@ -113,12 +116,7 @@ export const render = () => {
   }
 };
 
-export const save = () => {
-  localStorage.setItem('todo-projects', JSON.stringify(projects));
-  localStorage.setItem(LOCAL_STORAGE_PROJECT_ID_KEY, selectedProjectId);
-};
-
-export const saveAndRender = () => {
-  save();
+export const saveAndRender = (projects, selectedProjectId) => {
+  save(projects, selectedProjectId);
   render();
 };

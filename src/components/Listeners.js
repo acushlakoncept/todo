@@ -1,18 +1,16 @@
 /* eslint-disable no-alert */
 import {
-  saveAndRender, createTask, createProject, save, renderTaskCount,
+  saveAndRender, createTask, createProject, renderTaskCount, renderProjects,
 } from '../utils/common';
-
-import store from '../utils/data';
+import store, { LOCAL_STORAGE_PROJECT_ID_KEY, save } from '../utils/data';
 
 let projects = store();
-let selectedProjectId = '';
-
-const editTaskElement = document.querySelector('#editTaskModal');
-const createTaskBtn = document.querySelector('#createNewTaskBtn');
+let selectedProjectId = LOCAL_STORAGE_PROJECT_ID_KEY;
 
 
 export const editTaskEventHandler = () => {
+  const editTaskElement = document.querySelector('#editTaskModal');
+
   editTaskElement.addEventListener('submit', (e) => {
     e.preventDefault();
 
@@ -40,6 +38,7 @@ export const editTaskEventHandler = () => {
 
 export const projectCardEventHandler = () => {
   const projectCards = document.querySelector('.project-card');
+  const editTaskElement = document.querySelector('#editTaskModal');
 
   projectCards.addEventListener('click', (e) => {
     if (e.target.classList.contains('task-edit')) {
@@ -69,25 +68,38 @@ export const projectModalEventHandler = () => {
     const project = createProject(projectName);
     e.target.children[0].children[0].value = null;
     projects.push(project);
-    saveAndRender();
+    saveAndRender(projects, selectedProjectId);
     projectModal.querySelector('[data-dismiss="modal"]').click();
+    renderProjects();
+  });
+};
+
+export const projectAddEventHandler = () => {
+  const projectModalButton = document.querySelector('.plus');
+
+  projectModalButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    projectModalEventHandler();
   });
 };
 
 export const projectListEventHandler = () => {
   const projectList = document.querySelector('.project-links');
+  const createTaskBtn = document.querySelector('#createNewTaskBtn');
+
 
   projectList.addEventListener('click', (e) => {
     if (e.target.tagName.toLowerCase() === 'a') {
       selectedProjectId = e.target.dataset.projectId;
       createTaskBtn.dataset.target = '#taskModal';
-      saveAndRender();
+      saveAndRender(projects, selectedProjectId);
     }
   });
 };
 
 export const deleteProjectEventHandler = () => {
   const deleteProjectBtn = document.querySelector('.delete-project');
+  const createTaskBtn = document.querySelector('#createNewTaskBtn');
 
   deleteProjectBtn.addEventListener('click', () => {
     projects = projects.filter((project) => project.id !== selectedProjectId);
@@ -98,29 +110,19 @@ export const deleteProjectEventHandler = () => {
 };
 
 export const createTaskEventHandler = () => {
-  createTaskBtn.addEventListener('click', () => {
-    if (selectedProjectId === null) {
-      alert('Select a project first');
-    }
-  });
-};
-
-export const displayTaskModalEventHandler = () => {
-  const taskModal = document.querySelector('#taskModal');
+  const taskModal = document.querySelector('#task-form');
 
   taskModal.addEventListener('submit', (e) => {
     e.preventDefault();
-    if (selectedProjectId === 'null') {
+    if (!selectedProjectId) {
       document.querySelector('[data-dismiss="modal"]').click();
       return alert('select a project first');
     }
-
     const taskName = e.target.elements[0].value;
     const taskDesc = e.target.elements[1].value;
     const taskDate = e.target.elements[2].value;
     const taskPriority = e.target.elements[3].value;
     const taskNote = e.target.elements[4].value;
-
     if (
       taskName == null
       || taskName === ''
@@ -138,9 +140,20 @@ export const displayTaskModalEventHandler = () => {
       (project) => project.id === selectedProjectId,
     );
     selectedProject.tasks.push(task);
-    saveAndRender();
     taskModal.querySelector('[data-dismiss="modal"]').click();
+    saveAndRender(projects, selectedProject.id);
     return null;
+  });
+};
+
+export const createTaskBtnEventHandler = () => {
+  const createTaskBtn = document.querySelector('#createNewTaskBtn');
+
+  createTaskBtn.addEventListener('click', () => {
+    if (selectedProjectId === null) {
+      alert('Select a project first');
+    }
+    createTaskEventHandler();
   });
 };
 
@@ -169,7 +182,7 @@ export const completedTaskEventhandler = () => {
         (task) => task.id === e.target.id,
       );
       selectedTask.complete = e.target.checked;
-      save();
+      save(projects, selectedProjectId);
       renderTaskCount(selectedProject);
     }
   });
