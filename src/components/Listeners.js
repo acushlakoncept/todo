@@ -82,38 +82,15 @@ export const projectAddEventHandler = () => {
   });
 };
 
-// export const projectListEventHandler = () => {
-//   let selectedProjectId = LOCAL_STORAGE_PROJECT_ID_KEY();
-
-//   const projects = store();
-//   const projectList = document.querySelector('.project-links');
-//   const createTaskBtn = document.querySelector('#createNewTaskBtn');
-
-
-//   projectList.addEventListener('click', (e) => {
-//     console.log('CLICKED')
-//     console.log('CLICK',selectedProjectId)
-//     console.log('CLICK Target',e.target.tagName)
-//     if (e.target.tagName.toLowerCase() === 'a') {
-//       selectedProjectId = e.target.dataset.projectId;
-//       createTaskBtn.dataset.target = '#taskModal';
-//       saveAndRender(projects, selectedProjectId);
-//     }
-//   });
-// };
-
 export const deleteProjectEventHandler = () => {
   let projects = store();
   let selectedProjectId = LOCAL_STORAGE_PROJECT_ID_KEY();
-  const deleteProjectBtn = document.querySelector('.delete-project');
   const createTaskBtn = document.querySelector('#createNewTaskBtn');
 
-  deleteProjectBtn.addEventListener('click', () => {
-    projects = projects.filter((project) => project.id !== selectedProjectId);
-    selectedProjectId = null;
-    createTaskBtn.dataset.target = '';
-    saveAndRender(projects, selectedProjectId);
-  });
+  projects = projects.filter((project) => project.id !== selectedProjectId);
+  selectedProjectId = projects[0].id;
+  createTaskBtn.dataset.target = '';
+  saveAndRender(projects, selectedProjectId);
 };
 
 export const createTaskEventHandler = (e) => {
@@ -166,38 +143,30 @@ export const createTaskBtnEventHandler = () => {
 };
 
 export const clearCompletedTaskEventHandler = () => {
-  const selectedProjectId = LOCAL_STORAGE_PROJECT_ID_KEY;
+  const selectedProjectId = LOCAL_STORAGE_PROJECT_ID_KEY();
   const projects = store();
 
-  const clearCompletedTaskBtn = document.querySelector('.clear-task');
-  clearCompletedTaskBtn.addEventListener('click', () => {
+  const selectedProject = projects.find(
+    (project) => project.id === selectedProjectId,
+  );
+  selectedProject.tasks = selectedProject.tasks.filter(
+    (task) => !task.complete,
+  );
+  saveAndRender(projects, selectedProjectId);
+};
+
+export const completedTaskEventhandler = (e) => {
+  const projects = store();
+  const selectedProjectId = LOCAL_STORAGE_PROJECT_ID_KEY;
+  if (e.target.tagName.toLowerCase() === 'input') {
     const selectedProject = projects.find(
       (project) => project.id === selectedProjectId,
     );
-    selectedProject.tasks = selectedProject.tasks.filter(
-      (task) => !task.complete,
+    const selectedTask = selectedProject.tasks.find(
+      (task) => task.id === e.target.id,
     );
-    saveAndRender();
-  });
-};
-
-export const completedTaskEventhandler = () => {
-  const projects = store();
-  const selectedProjectId = LOCAL_STORAGE_PROJECT_ID_KEY;
-
-  const completeTaskInput = document.querySelector('.project-task');
-
-  completeTaskInput.addEventListener('click', (e) => {
-    if (e.target.tagName.toLowerCase() === 'input') {
-      const selectedProject = projects.find(
-        (project) => project.id === selectedProjectId,
-      );
-      const selectedTask = selectedProject.tasks.find(
-        (task) => task.id === e.target.id,
-      );
-      selectedTask.complete = e.target.checked;
-      save(projects, selectedProjectId);
-      renderTaskCount(selectedProject);
-    }
-  });
+    selectedTask.complete = e.target.checked;
+    save(projects, selectedProjectId);
+    renderTaskCount(selectedProject);
+  }
 };

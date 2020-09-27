@@ -1,5 +1,5 @@
 /* eslint-disable import/no-cycle */
-import { projectCardEventHandler } from './Listeners';
+import { clearCompletedTaskEventHandler, completedTaskEventhandler, deleteProjectEventHandler, projectCardEventHandler } from './Listeners';
 
 export default () => {
   const projectCards = document.createElement('div');
@@ -32,5 +32,9 @@ export default () => {
 
 
   projectCards.addEventListener('click', projectCardEventHandler);
+  removeProject.addEventListener('click', deleteProjectEventHandler);
+  projectCardList.addEventListener('click', completedTaskEventhandler);
+  clearCompletedTask.addEventListener('click', clearCompletedTaskEventHandler);
+
   return projectCards;
 };
