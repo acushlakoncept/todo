@@ -125,3 +125,17 @@ export const saveAndRender = (projects, selectedProjectId) => {
   save(projects, selectedProjectId);
   render();
 };
+
+export const editTask = (currentProject, taskId, taskInfo) => {
+  const {
+    taskName, taskDate, taskDesc, taskPriority, taskNote,
+  } = taskInfo;
+  const currentTask = currentProject.tasks.find((task) => task.id === taskId);
+  currentTask.name = taskName;
+  currentTask.description = taskDesc;
+  currentTask.date = taskDate;
+  currentTask.priority = taskPriority;
+  currentTask.note = taskNote;
+
+  return currentTask;
+};

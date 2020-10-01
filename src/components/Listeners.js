@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-alert */
 import {
-  saveAndRender, createTask, createProject, renderTaskCount, renderProjects,
+  saveAndRender, createTask, createProject, renderTaskCount, renderProjects, editTask,
 } from '../utils/common';
 import store, { LOCAL_STORAGE_PROJECT_ID_KEY, save } from '../utils/data';
 
@@ -21,12 +21,15 @@ export const editTaskEventHandler = (e) => {
   const currentProject = projects.find(
     (project) => project.id === selectedProjectId,
   );
-  const currentTask = currentProject.tasks.find((task) => task.id === taskId);
-  currentTask.name = taskName;
-  currentTask.description = taskDesc;
-  currentTask.date = taskDate;
-  currentTask.priority = taskPriority;
-  currentTask.note = taskNote;
+  const taskInfo = {
+    taskName,
+    taskDesc,
+    taskDate,
+    taskPriority,
+    taskNote,
+  };
+
+  editTask(currentProject, taskId, taskInfo);
 
   saveAndRender(projects, selectedProjectId);
   editTaskElement.querySelector('[data-dismiss="modal"]').click();
