@@ -128,14 +128,15 @@ export const saveAndRender = (projects, selectedProjectId) => {
 
 export const editTask = (currentProject, taskId, taskInfo) => {
   const {
-    taskName, taskDate, taskDesc, taskPriority, taskNote,
+    taskName, taskDate, taskDesc, taskPriority, taskNote, taskComplete,
   } = taskInfo;
   const currentTask = currentProject.tasks.find((task) => task.id === taskId);
-  currentTask.name = taskName;
-  currentTask.description = taskDesc;
-  currentTask.date = taskDate;
-  currentTask.priority = taskPriority;
-  currentTask.note = taskNote;
+  currentTask.name = taskName || currentTask.name;
+  currentTask.description = taskDesc || currentTask.description;
+  currentTask.date = taskDate || currentTask.date;
+  currentTask.priority = taskPriority || currentTask.priority;
+  currentTask.note = taskNote || currentTask.note;
+  currentTask.complete = taskComplete || currentTask.complete;
 
   return currentTask;
 };
@@ -143,3 +144,7 @@ export const editTask = (currentProject, taskId, taskInfo) => {
 export const deleteProject = (projects, selectedProjectId) => (
   projects.filter((project) => project.id !== selectedProjectId)
 );
+
+export const clearCompletedTasks = (selectedProject) => (selectedProject.tasks.filter(
+  (task) => !task.complete,
+));

@@ -2,7 +2,7 @@
 /* eslint-disable no-alert */
 import {
   saveAndRender, createTask, createProject, renderTaskCount,
-  renderProjects, editTask, deleteProject,
+  renderProjects, editTask, deleteProject, clearCompletedTasks,
 } from '../utils/common';
 import store, { LOCAL_STORAGE_PROJECT_ID_KEY, save } from '../utils/data';
 
@@ -153,9 +153,7 @@ export const clearCompletedTaskEventHandler = () => {
   const selectedProject = projects.find(
     (project) => project.id === selectedProjectId,
   );
-  selectedProject.tasks = selectedProject.tasks.filter(
-    (task) => !task.complete,
-  );
+  selectedProject.tasks = clearCompletedTasks(selectedProject);
   saveAndRender(projects, selectedProjectId);
 };
 

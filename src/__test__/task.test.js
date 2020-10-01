@@ -1,4 +1,6 @@
-const { createTask, editTask, createProject } = require('../utils/common');
+const {
+  createTask, editTask, createProject, clearCompletedTasks,
+} = require('../utils/common');
 
 describe('Task', () => {
   let name; let description; let priority; let
@@ -35,6 +37,20 @@ describe('Task', () => {
 
       expect(name).toEqual('Edited Task');
       expect(priority).toEqual('Medium');
+    });
+  });
+
+  describe('Completed Tasks', () => {
+    it('Clear', () => {
+      const editedTaskDetails = {
+        taskComplete: true,
+      };
+
+      editTask(project, taskId, editedTaskDetails);
+      let { tasks } = project;
+      tasks = clearCompletedTasks(project);
+
+      expect(tasks).not.toContain(task);
     });
   });
 });
