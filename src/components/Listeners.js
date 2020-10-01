@@ -1,7 +1,8 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-alert */
 import {
-  saveAndRender, createTask, createProject, renderTaskCount, renderProjects,
+  saveAndRender, createTask, createProject, renderTaskCount,
+  renderProjects, editTask, deleteProject, clearCompletedTasks,
 } from '../utils/common';
 import store, { LOCAL_STORAGE_PROJECT_ID_KEY, save } from '../utils/data';
 
@@ -21,12 +22,15 @@ export const editTaskEventHandler = (e) => {
   const currentProject = projects.find(
     (project) => project.id === selectedProjectId,
   );
-  const currentTask = currentProject.tasks.find((task) => task.id === taskId);
-  currentTask.name = taskName;
-  currentTask.description = taskDesc;
-  currentTask.date = taskDate;
-  currentTask.priority = taskPriority;
-  currentTask.note = taskNote;
+  const taskInfo = {
+    taskName,
+    taskDesc,
+    taskDate,
+    taskPriority,
+    taskNote,
+  };
+
+  editTask(currentProject, taskId, taskInfo);
 
   saveAndRender(projects, selectedProjectId);
   editTaskElement.querySelector('[data-dismiss="modal"]').click();
@@ -87,7 +91,7 @@ export const deleteProjectEventHandler = () => {
   let selectedProjectId = LOCAL_STORAGE_PROJECT_ID_KEY();
   const createTaskBtn = document.querySelector('#createNewTaskBtn');
 
-  projects = projects.filter((project) => project.id !== selectedProjectId);
+  projects = deleteProject(projects, selectedProjectId);
   selectedProjectId = projects[0].id;
   createTaskBtn.dataset.target = '';
   saveAndRender(projects, selectedProjectId);
@@ -149,9 +153,7 @@ export const clearCompletedTaskEventHandler = () => {
   const selectedProject = projects.find(
     (project) => project.id === selectedProjectId,
   );
-  selectedProject.tasks = selectedProject.tasks.filter(
-    (task) => !task.complete,
-  );
+  selectedProject.tasks = clearCompletedTasks(selectedProject);
   saveAndRender(projects, selectedProjectId);
 };
 

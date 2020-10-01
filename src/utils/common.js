@@ -20,10 +20,15 @@ export const clearElement = (element) => {
   }
 };
 
-export const renderTaskCount = (selectedProject) => {
+export const taskCount = (selectedProject) => {
   const incompleteTaskCount = selectedProject.tasks.filter(
     (task) => !task.complete,
   ).length;
+  return incompleteTaskCount;
+};
+
+export const renderTaskCount = (selectedProject) => {
+  const incompleteTaskCount = taskCount(selectedProject);
   const taskString = incompleteTaskCount === 1 ? 'task' : 'tasks';
   document.querySelector(
     '.project-task-count',
@@ -125,3 +130,26 @@ export const saveAndRender = (projects, selectedProjectId) => {
   save(projects, selectedProjectId);
   render();
 };
+
+export const editTask = (currentProject, taskId, taskInfo) => {
+  const {
+    taskName, taskDate, taskDesc, taskPriority, taskNote, taskComplete,
+  } = taskInfo;
+  const currentTask = currentProject.tasks.find((task) => task.id === taskId);
+  currentTask.name = taskName || currentTask.name;
+  currentTask.description = taskDesc || currentTask.description;
+  currentTask.date = taskDate || currentTask.date;
+  currentTask.priority = taskPriority || currentTask.priority;
+  currentTask.note = taskNote || currentTask.note;
+  currentTask.complete = taskComplete || currentTask.complete;
+
+  return currentTask;
+};
+
+export const deleteProject = (projects, selectedProjectId) => (
+  projects.filter((project) => project.id !== selectedProjectId)
+);
+
+export const clearCompletedTasks = (selectedProject) => (selectedProject.tasks.filter(
+  (task) => !task.complete,
+));
