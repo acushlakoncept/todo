@@ -1,4 +1,4 @@
-const { createProject, deleteProject, renderProjects } = require('../utils/common');
+const { createProject, deleteProject } = require('../utils/common');
 const { save } = require('../utils/data');
 
 describe('Project', () => {
@@ -28,10 +28,10 @@ describe('Project', () => {
 
   describe('Save', () => {
     it('Should save a Project', () => {
-      let projects = [project];
-      save(projects, project.id)
-      let saveProjects = JSON.parse(localStorage.getItem('todo-projects'))
-      expect(saveProjects[0].name).toEqual('Test Project')
+      const projects = [project];
+      save(projects, project.id);
+      const saveProjects = JSON.parse(localStorage.getItem('todo-projects'));
+      expect(saveProjects[0].name).toEqual('Test Project');
     });
   });
 });

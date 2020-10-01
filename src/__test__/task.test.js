@@ -56,7 +56,7 @@ describe('Task', () => {
 
   describe('Task Count', () => {
     it('Counts', () => {
-      const incompleteTaskCount = taskCount(project)
+      const incompleteTaskCount = taskCount(project);
       expect(incompleteTaskCount).toBe(1);
     });
   });

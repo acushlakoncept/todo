@@ -28,7 +28,7 @@ export const taskCount = (selectedProject) => {
 };
 
 export const renderTaskCount = (selectedProject) => {
-  const incompleteTaskCount = taskCount(selectedProject)
+  const incompleteTaskCount = taskCount(selectedProject);
   const taskString = incompleteTaskCount === 1 ? 'task' : 'tasks';
   document.querySelector(
     '.project-task-count',

@@ -46,7 +46,6 @@ export default () => {
   clearCompletedTask.innerText = 'Clear complete task';
   projectCards.appendChild(clearCompletedTask);
 
-
   projectCards.addEventListener('click', projectCardEventHandler);
   removeProject.addEventListener('click', deleteProjectEventHandler);
   projectCardList.addEventListener('click', completedTaskEventhandler);
