@@ -1,5 +1,5 @@
 const {
-  createTask, editTask, createProject, clearCompletedTasks,
+  createTask, editTask, createProject, clearCompletedTasks, taskCount,
 } = require('../utils/common');
 
 describe('Task', () => {
@@ -56,15 +56,8 @@ describe('Task', () => {
 
   describe('Task Count', () => {
     it('Counts', () => {
-      const editedTaskDetails = {
-        taskComplete: true,
-      };
-
-      editTask(project, taskId, editedTaskDetails);
-      let { tasks } = project;
-      tasks = clearCompletedTasks(project);
-
-      expect(tasks).not.toContain(task);
+      const incompleteTaskCount = taskCount(project)
+      expect(incompleteTaskCount).toBe(1);
     });
   });
 });
