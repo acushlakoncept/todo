@@ -1,7 +1,8 @@
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-alert */
 import {
-  saveAndRender, createTask, createProject, renderTaskCount, renderProjects, editTask,
+  saveAndRender, createTask, createProject, renderTaskCount,
+  renderProjects, editTask, deleteProject,
 } from '../utils/common';
 import store, { LOCAL_STORAGE_PROJECT_ID_KEY, save } from '../utils/data';
 
@@ -90,7 +91,7 @@ export const deleteProjectEventHandler = () => {
   let selectedProjectId = LOCAL_STORAGE_PROJECT_ID_KEY();
   const createTaskBtn = document.querySelector('#createNewTaskBtn');
 
-  projects = projects.filter((project) => project.id !== selectedProjectId);
+  projects = deleteProject(projects, selectedProjectId);
   selectedProjectId = projects[0].id;
   createTaskBtn.dataset.target = '';
   saveAndRender(projects, selectedProjectId);

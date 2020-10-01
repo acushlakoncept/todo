@@ -139,3 +139,7 @@ export const editTask = (currentProject, taskId, taskInfo) => {
 
   return currentTask;
 };
+
+export const deleteProject = (projects, selectedProjectId) => (
+  projects.filter((project) => project.id !== selectedProjectId)
+);
