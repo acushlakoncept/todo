@@ -53,4 +53,18 @@ describe('Task', () => {
       expect(tasks).not.toContain(task);
     });
   });
+
+  describe('Task Count', () => {
+    it('Counts', () => {
+      const editedTaskDetails = {
+        taskComplete: true,
+      };
+
+      editTask(project, taskId, editedTaskDetails);
+      let { tasks } = project;
+      tasks = clearCompletedTasks(project);
+
+      expect(tasks).not.toContain(task);
+    });
+  });
 });

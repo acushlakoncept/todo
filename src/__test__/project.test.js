@@ -1,4 +1,4 @@
-const { createProject, deleteProject } = require('../utils/common');
+const { createProject, deleteProject, renderProjects } = require('../utils/common');
 const { save } = require('../utils/data');
 
 describe('Project', () => {

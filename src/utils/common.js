@@ -20,10 +20,15 @@ export const clearElement = (element) => {
   }
 };
 
-export const renderTaskCount = (selectedProject) => {
+export const taskCount = (selectedProject) => {
   const incompleteTaskCount = selectedProject.tasks.filter(
     (task) => !task.complete,
   ).length;
+  return incompleteTaskCount;
+};
+
+export const renderTaskCount = (selectedProject) => {
+  const incompleteTaskCount = taskCount(selectedProject)
   const taskString = incompleteTaskCount === 1 ? 'task' : 'tasks';
   document.querySelector(
     '.project-task-count',
