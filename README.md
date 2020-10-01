@@ -5,6 +5,7 @@ In this project, we built a simple Todo App using Webpack and ES6 by dynamically
 - DOM Manipulation with JavaScript
 - LocalStorage
 - Bootstrap
+- Jest Testing
 
 ![screenshot](./todoscreenshot.gif)
 
@@ -29,6 +30,11 @@ $ git clone https://github.com/acushlakoncept/todo.git
 $ cd todo
 $ npm install
 $ npm run start
+```
+
+#### Run test
+```bash
+$ npm test
 ```
 
 ## Author
